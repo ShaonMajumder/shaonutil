@@ -17,6 +17,8 @@ Author: Shaon Majumder
 
 shaonutil.stats.mean(list of numbers)
 
+shaonutil.stats.median(list of numbers)
+
 ## Versioning
 
  *major.minor[.maintenance[.build]]* (example: *1.4.3.5249*) 

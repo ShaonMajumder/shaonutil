@@ -1,2 +1,3 @@
 import shaonutil
-print("average of 1 and 2 = ",shaonutil.stats.mean([1,2]))
+print("average = ",shaonutil.stats.mean([1,2.5]))
+print("median = ",shaonutil.stats.median([1,2.5,4,3]))
