@@ -8,7 +8,7 @@ setup(
   author = 'Shaon Majumder',
   author_email = 'smazoomder@gmail.com',
   url = 'https://github.com/ShaonMajumder/shaonutil',
-  download_url = 'https://github.com/ShaonMajumder/shaonutil/archive/1.0.tar.gz',
+  download_url = 'https://github.com/ShaonMajumder/shaonutil/archive/0.0.0.1.1.tar.gz',
   keywords = ['shaon', 'utility', 'statistics'], 
   classifiers = [],
 )
