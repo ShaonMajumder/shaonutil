@@ -15,7 +15,7 @@ Author: Shaon Majumder
 
  *major.minor[.maintenance[.build]]* (example: *1.4.3.5249*) 
 
-adoption: major.minor.patch.maintenance.status
+adoption: major.minor.patch.maintenance.status.trials_for_success
 
 The last position 
 
