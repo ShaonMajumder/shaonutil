@@ -11,6 +11,12 @@ Author: Shaon Majumder
 ## Installation
 	pip install shaonutil
 
+## Usages
+
+### Statistics
+
+shaonutil.stats.mean(list of numbers)
+
 ## Versioning
 
  *major.minor[.maintenance[.build]]* (example: *1.4.3.5249*) 
