@@ -8,7 +8,7 @@ setup(
   author = 'Shaon Majumder',
   author_email = 'smazoomder@gmail.com',
   url = 'https://github.com/ShaonMajumder/shaonutil',
-  download_url = 'https://github.com/yldrmzffr/reconium/tarball/0.5',
+  download_url = 'https://github.com/ShaonMajumder/shaonutil/archive/0.1.tar.gz',
   keywords = ['shaon', 'utility', 'statistics'], 
   classifiers = [],
 )
