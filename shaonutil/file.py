@@ -1,5 +1,8 @@
 import json,codecs,configparser,subprocess,platform,os,glob
 
+def get_all_functions(object):
+	return [func for func in dir(object) if callable(getattr(object, func))]
+
 def ConfigSectionMap(Config, section):
     dict1 = {}
     options = Config.options(section)
