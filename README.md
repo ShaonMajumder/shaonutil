@@ -13,6 +13,11 @@ Author: Shaon Majumder
 
 ## Usages
 
+### File
+
+shaonutil.file.get_all_functions(object)
+Note: object can be object/file/class
+
 ### Statistics
 
 shaonutil.stats.mean(list of numbers)
