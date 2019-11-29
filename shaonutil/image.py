@@ -1,3 +1,4 @@
+"""Image"""
 from PIL import Image,ImageDraw,ImageFont,ImageOps
 
 def change_image_size_ratio(img_name,out_name,percent):

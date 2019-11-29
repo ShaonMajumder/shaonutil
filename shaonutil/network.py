@@ -1,3 +1,4 @@
+"""Network"""
 from urllib.parse import unquote
 import re
 

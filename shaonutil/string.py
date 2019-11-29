@@ -1,3 +1,4 @@
+"""String"""
 import string,random,pprint
 
 def nicely_print(dictionary,print=True):

@@ -1,3 +1,4 @@
+"""File"""
 import json,codecs,configparser,subprocess,platform,os,glob
 
 def get_all_functions(object):
