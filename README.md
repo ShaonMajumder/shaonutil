@@ -11,7 +11,7 @@ Author: Shaon Majumder
 ## Installation
 	pip install shaonutil
 
-## Usages
+## Function Usages
 
 ### File
 shaonutil.file.get_all_functions(object/file/class)
@@ -23,6 +23,8 @@ shaonutil.stats.mean(list of numbers)
 shaonutil.stats.median(list of numbers)
 
 shaonutil.stats.mode(list of numbers)
+
+Function Usages End
 
 ## Versioning
 

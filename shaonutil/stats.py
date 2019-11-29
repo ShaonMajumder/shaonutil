@@ -1,3 +1,4 @@
+"""Statistics"""
 def counter(li,number):
 	num = 0
 	for c in li:
