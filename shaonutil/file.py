@@ -1,6 +1,7 @@
 import json,codecs,configparser,subprocess,platform,os,glob
 
 def get_all_functions(object):
+	"""shaonutil.file.get_all_functions(object/file/class)"""
 	return [func for func in dir(object) if callable(getattr(object, func))]
 
 def ConfigSectionMap(Config, section):

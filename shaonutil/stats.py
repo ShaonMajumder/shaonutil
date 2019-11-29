@@ -12,11 +12,11 @@ def occurance_dic(li):
 	return dic
 
 def mean(li):
-	# avearage or mean of elements
+	"""Avearage or mean of elements - shaonutil.stats.mean(list of numbers)"""
 	return sum(li)/len(li)
 
 def median(li):
-	# median of elements 
+	"""Median of elements - shaonutil.stats.median(list of numbers)"""
 	n = len(li) 
 	li.sort() 
 
@@ -30,7 +30,7 @@ def median(li):
 	return median
 
 def mode(li):
-	# mode of elements 
+	"""Mode of elements - shaonutil.stats.mode(list of numbers)"""
 	n = len(li)
 	data = occurance_dic(li)
 	mode = [k for k, v in data.items() if v == max(list(data.values()))] 
