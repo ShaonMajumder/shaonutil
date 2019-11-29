@@ -4,6 +4,7 @@ import re
 
 
 def url_encoding_to_utf_8(url):
+	"""url_encoding_to_utf_8(url)"""
     url = unquote(url)
     return url
 
