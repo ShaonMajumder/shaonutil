@@ -1,5 +1,7 @@
 """String"""
-import string,random,pprint
+import string
+import random
+import pprint
 
 def nicely_print(dictionary,print=True):
 	# Prints the nicely formatted dictionary

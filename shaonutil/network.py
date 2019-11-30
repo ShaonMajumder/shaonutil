@@ -1,12 +1,12 @@
 """Network"""
-from urllib.parse import unquote
+import urllib.parse
 import re
 
 
 def url_encoding_to_utf_8(url):
 	"""url_encoding_to_utf_8(url)"""
-    url = unquote(url)
-    return url
+	url = urllib.parse.unquote(url)
+	return url
 
 
 def check_valid_url(url):
