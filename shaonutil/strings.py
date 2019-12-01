@@ -4,7 +4,7 @@ import random
 import pprint
 
 def nicely_print(dictionary,print=True):
-	# Prints the nicely formatted dictionary
+	"""Prints the nicely formatted dictionary - shaonutil.strings.nicely_print(object)"""
 	if print: pprint.pprint(dictionary)
 
 	# Sets 'pretty_dict_str' to 

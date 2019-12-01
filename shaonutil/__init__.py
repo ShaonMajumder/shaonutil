@@ -2,5 +2,5 @@
 import shaonutil.stats
 import shaonutil.network
 import shaonutil.image
-import shaonutil.string
+import shaonutil.strings
 import shaonutil.file

@@ -12,25 +12,18 @@ Author: Shaon Majumder
 	pip install shaonutil
 
 ## Function Usages
-### File
+
+### file
 
 get_all_functions - shaonutil.file.get_all_functions(object/file/class)
 
-### Image
+### image
 
-### Network
+### network
 
-unquote - Replace %xx escapes by their single-character equivalent. The optional
-    encoding and errors parameters specify how to decode percent-encoded
-    sequences into Unicode characters, as accepted by the bytes.decode()
-    method.
-    By default, percent-encoded sequences are decoded with UTF-8, and invalid
-    sequences are replaced by a placeholder character.
+url_encoding_to_utf_8 - url_encoding_to_utf_8(url)
 
-    unquote('abc%20def') -> 'abc def'.
-    
-
-### Statistics
+### stats
 
 mean - Avearage or mean of elements - shaonutil.stats.mean(list of numbers)
 
@@ -38,9 +31,13 @@ median - Median of elements - shaonutil.stats.median(list of numbers)
 
 mode - Mode of elements - shaonutil.stats.mode(list of numbers)
 
-### String
+### strings
+
+nicely_print - Prints the nicely formatted dictionary - shaonutil.strings.nicely_print(object)
 
 randomString - Generate a random string of fixed length 
+
+
 
 Function Usages End
 
