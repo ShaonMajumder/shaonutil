@@ -1,5 +1,5 @@
 """File"""
-import json,codecs,configparser,subprocess,platform,os,glob
+import json,codecs,configparser,subprocess,platform,os,glob,shaonutil
 
 def get_all_functions(object):
 	"""shaonutil.file.get_all_functions(object/file/class)"""
@@ -79,6 +79,16 @@ def get_last_file_of_dir(filename):
 	latest_file = max(list_of_files, key=os.path.getctime)
 	return latest_file
 
+def remove_duplicateLines_from_file(filename):
+	lines = shaonutil.file.read_file(filename)
+	lines_seen = set() # holds lines already seen
+
+	for line in lines:
+		if line not in lines_seen: # not a duplicate
+			lines_seen.add(line)
+
+	strs = '\n'.join(lines_seen)
+	shaonutil.file.write_file(filename, strs)
 
 if __name__ == '__main__':
 	pass

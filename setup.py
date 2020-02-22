@@ -20,4 +20,5 @@ setup(
   download_url = 'https://github.com/ShaonMajumder/shaonutil/archive/0.0.0.15.1.tar.gz',
   keywords = ['shaon', 'utility', 'statistics'], 
   classifiers = [],
+  setup_requires=['wheel']
 )
