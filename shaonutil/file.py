@@ -32,6 +32,9 @@ def read_safecase_configuration_ini(filename):
 	config.readfp(codecs.open(filename, "r", "utf8"))
 	return config
 
+def write_configuration_ini(configs_par,filename, f_mode='w'):
+	with open(filename, f_mode) as configfile:    # save
+		configs_par.write(configfile)
 
 def read_json(filename):
 	with codecs.open(filename, "r", encoding="utf-8") as fp:
