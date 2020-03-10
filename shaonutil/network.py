@@ -39,7 +39,7 @@ class Email:
 	def authentication(self, new_value):
 		self._authentication = new_value
 
-	def send_email(self,receiver_address,subject,mail_content,attachment_file_link):
+	def send_email(self,receiver_address,subject,mail_content,attachment_file_link,log=False):
 		#The mail addresses and password
 		smtp_server = self._authentication['smtp_server']
 		smtp_port = self._authentication['smtp_port']
@@ -59,12 +59,20 @@ class Email:
 		session = smtplib.SMTP(smtp_server, smtp_port) #use gmail with port
 		session.starttls() #enable security
 
-		# if user/pass is not accepeted , turn on less secure app setting and recognize the activity warning mail sent in your gmail, then it will send email in next run.
-		session.login(sender_address, sender_pass) #login with mail_id and password
+		try:
+			session.login(sender_address, sender_pass) #login with mail_id and password
+		except smtplib.SMTPAuthenticationError as e:
+			#: (535, b'5.7.8 Username and Password not accepted. Learn more at\n5.7.8  https://support.google.com/mail/?p=BadCredentials j24sm19239050pfi.55 - gsmtp')
+			if(log): print('if using gmail smtp, check server host,port\n  if user/pass is not accepeted , turn on less secure app setting and recognize the activity warning mail sent in your gmail, then it will send email in next run.')
+			stat_message = str(e)
+			return stat_message
+
+
 		text = message.as_string()
 		session.sendmail(sender_address, receiver_address, text)
 		session.quit()
-		print('Mail Sent')
+		stat_message = 'Mail Sent'
+		return stat_message
 
 
 if __name__ == '__main__':
