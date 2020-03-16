@@ -2,6 +2,7 @@
 import string
 import random
 import pprint
+import uuid
 
 def nicely_print(dictionary,print=True):
 	"""Prints the nicely formatted dictionary - shaonutil.strings.nicely_print(object)"""
