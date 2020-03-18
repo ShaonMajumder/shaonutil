@@ -1,5 +1,5 @@
 """File"""
-import json,codecs,configparser,subprocess,platform,os,glob,shaonutil
+import json,codecs,configparser,subprocess,platform,os,glob,shaonutil,pickle
 
 def get_all_functions(object):
 	"""shaonutil.file.get_all_functions(object/file/class)"""
