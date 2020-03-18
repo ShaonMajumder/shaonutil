@@ -190,7 +190,8 @@ def make_release(release_tag,git_url,github_user,github_pass):
 	except:
 		driver.close()
 		driver.quit()
-		raise NoSuchElementException('Release was not created.')
+		#raise NoSuchElementException('Release was not created.')
+		print('Release was not created.')
 		return False
 
 	
