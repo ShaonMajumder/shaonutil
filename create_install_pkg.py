@@ -163,7 +163,7 @@ def make_release():
 	options = Options()
 	#options.headless = True
 	try:
-	    driver = webdriver.Firefox(executable_path=driver_path,options=options)
+	    driver = webdriver.Firefox(executable_path=driver_path_firefox,options=options)
 	except WebDriverException:
 	    raise WebDriverException("invalid argument: can't kill an exited process\n Check if Firefox version and geckodriver in resources folder is not matched")
 	driver.get('https://github.com')
