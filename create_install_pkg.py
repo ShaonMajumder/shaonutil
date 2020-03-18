@@ -149,7 +149,11 @@ git push -u origin master"""
 		for path in execute_shell(command):
 		    print(path, end="")
 
-def make_release():
+
+
+
+def make_release(release_tag,git_url,github_user,github_pass):
+	git_url = git_url + '/releases/new'
 	print("Making release")
 	release_tag = input("Release tag : ")
     
@@ -166,9 +170,36 @@ def make_release():
 	    driver = webdriver.Firefox(executable_path=driver_path_firefox,options=options)
 	except WebDriverException:
 	    raise WebDriverException("invalid argument: can't kill an exited process\n Check if Firefox version and geckodriver in resources folder is not matched")
+	
 	driver.get('https://github.com')
+	driver.find_element_by_xpath('//a[@href="/login" and contains(@data-ga-click,"text:sign-in")]').click()
+	driver.find_element_by_xpath('//input[@type="text" and @name="login" and @id="login_field" and @autocomplete="username"]').click()
+	driver.find_element_by_xpath('//input[@type="text" and @name="login" and @id="login_field" and @autocomplete="username"]').send_keys(github_user)
+	driver.find_element_by_xpath('//input[@type="password" and @name="password" and @id="password" and @autocomplete="current-password"]').click()
+	driver.find_element_by_xpath('//input[@type="password" and @name="password" and @id="password" and @autocomplete="current-password"]').send_keys(github_pass)
+	driver.find_element_by_xpath('//input[@type="submit" and @name="commit" and @value="Sign in"]').click()
+	driver.get(git_url)
+	driver.find_element_by_xpath('//input[@placeholder="Tag version" and @list="git-tags" and contains(@class,"release-tag-field") and contains(@class,"js-release-tag-field") and @aria-label="Enter tag name or version number" and @data-existing-id="none" and @type="text" and @name="release[tag_name]" and @id="release_tag_name"]').click()
+	driver.find_element_by_xpath('//input[@placeholder="Tag version" and @list="git-tags" and contains(@class,"release-tag-field") and contains(@class,"js-release-tag-field") and @aria-label="Enter tag name or version number" and @data-existing-id="none" and @type="text" and @name="release[tag_name]" and @id="release_tag_name"]').send_keys(release_tag)
+	driver.find_element_by_xpath('//button[contains(@class,"js-publish-release") and @type="submit" and text()="Publish release"]').click()
+	
+	try:
+		link_release = driver.find_element_by_xpath('//a[contains(@href,"releases/tag/0.0.0.27.1") and text()="0.0.0.27.1"]')
+		driver.close()
+		driver.quit()
+		return True
+	except:
+		driver.close()
+		driver.quit()
+		raise NoSuchElementException('Release was not created.')
+		return False
+
+	
+	
 
 
+	
+	
 
 if __name__ == '__main__':
 	check_modules()
@@ -181,6 +212,35 @@ if __name__ == '__main__':
 	changing_version_name(pre_vname,new_vname)
 	cleaning_before_commit()
 	commit_push()
-	make_release()
 	
-	
+	git_url = 'https://github.com/ShaonMajumder/shaonutil'
+	github_user = 'smazoomder@gmail.com'
+	github_pass = 'shaonmterobist170892'
+	make_release(release_tag,git_url,github_user,github_pass)
+
+
+
+	pypi_user = input("Give pypi user : ")
+	pypi_pass = input("Give pypi pass : ")
+
+	### git diff-index --quiet HEAD || git commit -m \""""+commit_msg+"""\";
+
+	if platform.system() == 'Linux':
+		commands = """pip3 uninstall """+package_name+""" -y
+python3 setup.py sdist bdist_wheel
+twine upload dist/* --user="""+pypi_user+""" --pass="""+pypi_pass+"""
+python3 setup.py install"""
+	elif platform.system() == 'Windows':
+		commands = """pip3 uninstall """+package_name+""" -y
+python setup.py sdist bdist_wheel
+twine upload dist/* --user="""+pypi_user+""" --pass="""+pypi_pass+"""
+python setup.py install"""
+
+
+	commands = commands.split("\n")
+
+	for command in commands:
+		for path in execute_shell(command):
+		    print(path, end="")
+
+	cleaning_before_commit()
