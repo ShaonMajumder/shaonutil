@@ -1,3 +1,6 @@
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
+from selenium.common.exceptions import NoAlertPresentException,TimeoutException,NoSuchElementException,WebDriverException,ElementNotVisibleException
 import os
 import time
 import shutil
@@ -146,21 +149,39 @@ git push -u origin master"""
 		for path in execute_shell(command):
 		    print(path, end="")
 
+def make_release():
+	print("Making release")
+	release_tag = input("Release tag : ")
+    
+    
+	if platform.system() == 'Linux':
+		driver_path_firefox = 'resources/geckodriver'
+	elif platform.system() == 'Windows':
+		driver_path_firefox = 'resources/geckodriver.exe'
+
+
+	options = Options()
+	#options.headless = True
+	try:
+	    driver = webdriver.Firefox(executable_path=driver_path,options=options)
+	except WebDriverException:
+	    raise WebDriverException("invalid argument: can't kill an exited process\n Check if Firefox version and geckodriver in resources folder is not matched")
+	driver.get('https://github.com')
+
+
 
 if __name__ == '__main__':
 	check_modules()
 	checks_folder()
 
-
-
 	pre_vname = get_version_name()
 	print("Showing Previous Version :",pre_vname)
 	new_vname = input("Give    New Version Name : ")
-	changing_version_name(pre_vname,new_vname)
-	
 
+	changing_version_name(pre_vname,new_vname)
 	cleaning_before_commit()
 	commit_push()
+	make_release()
 	quit()
 
 	pypi_user = input("Give pypi user : ")
@@ -180,7 +201,6 @@ twine upload dist/* --user="""+pypi_user+""" --pass="""+pypi_pass+"""
 python setup.py install"""
 
 
-
 	commands = commands.split("\n")
 
 	for command in commands:
@@ -188,6 +208,3 @@ python setup.py install"""
 		    print(path, end="")
 
 	cleaning_before_commit()
-
-
-	
