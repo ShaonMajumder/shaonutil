@@ -71,7 +71,8 @@ def write_file(filename, strs,mode="w"):
 def read_pickle(filename):
 	# Unpickling
 	with open(filename, "rb") as fp:
-		b = pickle.load(fp)
+		unpickler = pickle.Unpickler(fp)
+		b = unpickler.load(fp)
 	return b
 
 def write_pickle(filename, obj_):
