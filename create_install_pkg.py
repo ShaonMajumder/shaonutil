@@ -214,6 +214,33 @@ def upload_to_pypi():
 		for path in execute_shell(command):
 		    print(path, end="")
 
+def create_dist():
+	if platform.system() == 'Linux':
+		commands = """python3 setup.py sdist bdist_wheel"""
+	elif platform.system() == 'Windows':
+		commands = """python setup.py sdist bdist_wheel"""
+
+	commands = commands.split("\n")
+
+	for command in commands:
+		for path in execute_shell(command):
+		    print(path, end="")
+
+def locally_install():
+	if platform.system() == 'Linux':
+		commands = """pip3 uninstall """+package_name+""" -y
+python3 setup.py install"""
+	elif platform.system() == 'Windows':
+		commands = """pip3 uninstall """+package_name+""" -y
+python setup.py install"""
+
+
+	commands = commands.split("\n")
+
+	for command in commands:
+		for path in execute_shell(command):
+		    print(path, end="")
+
 
 if __name__ == '__main__':
 	check_modules()
@@ -240,20 +267,8 @@ if __name__ == '__main__':
 
 	### git diff-index --quiet HEAD || git commit -m \""""+commit_msg+"""\";
 
-	if platform.system() == 'Linux':
-		commands = """pip3 uninstall """+package_name+""" -y
-python3 setup.py sdist bdist_wheel
-python3 setup.py install"""
-	elif platform.system() == 'Windows':
-		commands = """pip3 uninstall """+package_name+""" -y
-python setup.py sdist bdist_wheel
-python setup.py install"""
+	create_dist()
 
-
-	commands = commands.split("\n")
-
-	for command in commands:
-		for path in execute_shell(command):
-		    print(path, end="")
-
+	locally_install()
+	
 	cleaning_before_commit()
