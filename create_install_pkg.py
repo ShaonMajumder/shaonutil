@@ -24,6 +24,7 @@ def cleaning_before_commit():
 build
 dist
 .eggs
+geckodriver.log
 """
 	print("Cleaning files -",files)
 
