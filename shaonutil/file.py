@@ -1,5 +1,19 @@
 """File"""
-import json,codecs,configparser,subprocess,platform,os,glob,shaonutil,pickle
+from pip._internal import main as pipmain
+import json,codecs,configparser,subprocess,platform,os,glob,shaonutil,pickle,importlib,pip
+
+
+def package_exists(package_name):
+	"""check if a python pcakage exists."""
+	
+	spam_spec = importlib.util.find_spec(package_name)
+	found = spam_spec is not None
+	return found
+
+
+def pip_install(package_name):
+	failed = pipmain(['-m','install', package_name])
+	return failed
 
 def get_all_functions(object):
 	"""shaonutil.file.get_all_functions(object/file/class)"""
