@@ -154,8 +154,7 @@ git push -u origin master"""
 
 def make_release(release_tag,git_url,github_user,github_pass):
 	git_url = git_url + '/releases/new'
-	print("Making release")
-	release_tag = input("Release tag : ")
+	print("Making release ...")
     
     
 	if platform.system() == 'Linux':
@@ -199,7 +198,21 @@ def make_release(release_tag,git_url,github_user,github_pass):
 
 
 	
+def upload_to_pypi():
+	pypi_user = input("Give pypi user : ")
+	pypi_pass = input("Give pypi pass : ")
 	
+	if platform.system() == 'Linux':
+		commands = """twine upload dist/* --user="""+pypi_user+""" --pass="""+pypi_pass
+	elif platform.system() == 'Windows':
+		commands = """twine upload dist/* --user="""+pypi_user+""" --pass="""+pypi_pass
+
+	commands = commands.split("\n")
+
+	for command in commands:
+		for path in execute_shell(command):
+		    print(path, end="")
+
 
 if __name__ == '__main__':
 	check_modules()
@@ -210,32 +223,29 @@ if __name__ == '__main__':
 	new_vname = input("Give    New Version Name : ")
 
 	changing_version_name(pre_vname,new_vname)
+
 	cleaning_before_commit()
+
 	commit_push()
 	
-	git_url = 'https://github.com/ShaonMajumder/shaonutil'
-	github_user = 'smazoomder@gmail.com'
-	github_pass = 'shaonmterobist170892'
-
+	config = shaonutil.file.read_configuration_ini('private/github.config')
+	git_url = config['GITHUB']['github_project_url']
+	github_user = config['GITHUB']['github_user']
+	github_pass = config['GITHUB']['github_pass']
 	release_tag = input("Give New Release tag : ")
 	make_release(release_tag,git_url,github_user,github_pass)
 
-
-
-	pypi_user = input("Give pypi user : ")
-	pypi_pass = input("Give pypi pass : ")
+	upload_to_pypi()
 
 	### git diff-index --quiet HEAD || git commit -m \""""+commit_msg+"""\";
 
 	if platform.system() == 'Linux':
 		commands = """pip3 uninstall """+package_name+""" -y
 python3 setup.py sdist bdist_wheel
-twine upload dist/* --user="""+pypi_user+""" --pass="""+pypi_pass+"""
 python3 setup.py install"""
 	elif platform.system() == 'Windows':
 		commands = """pip3 uninstall """+package_name+""" -y
 python setup.py sdist bdist_wheel
-twine upload dist/* --user="""+pypi_user+""" --pass="""+pypi_pass+"""
 python setup.py install"""
 
 

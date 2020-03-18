@@ -98,3 +98,21 @@ JavaScript error: resource://devtools/server/actors/network-monitor/network-resp
 JavaScript error: resource://devtools/server/actors/network-monitor/network-response-listener.js, line 84: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIInterfaceRequestor.getInterface]
 JavaScript error: resource://devtools/server/actors/network-monitor/network-response-listener.js, line 84: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIInterfaceRequestor.getInterface]
 1584540212990	Marionette	INFO	Stopped listening on port 54074
+1584540442501	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\SHAONM~1\\AppData\\Local\\Temp\\rust_mozprofile.P6FycTgiaU50"
+1584540448151	addons.webextension.doh-rollout@mozilla.org	WARN	Loading extension 'doh-rollout@mozilla.org': Reading manifest: Invalid extension permission: networkStatus
+1584540449665	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1584540449665	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: telemetry
+1584540449665	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1584540449665	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+1584540456540	Marionette	INFO	Listening on port 57177
+1584540456759	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+1584540473313	Marionette	INFO	Stopped listening on port 57177
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
