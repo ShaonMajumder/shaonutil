@@ -182,29 +182,5 @@ if __name__ == '__main__':
 	cleaning_before_commit()
 	commit_push()
 	make_release()
-	quit()
-
-	pypi_user = input("Give pypi user : ")
-	pypi_pass = input("Give pypi pass : ")
-
-	### git diff-index --quiet HEAD || git commit -m \""""+commit_msg+"""\";
-
-	if platform.system() == 'Linux':
-		commands = """pip3 uninstall """+package_name+""" -y
-python3 setup.py sdist bdist_wheel
-twine upload dist/* --user="""+pypi_user+""" --pass="""+pypi_pass+"""
-python3 setup.py install"""
-	elif platform.system() == 'Windows':
-		commands = """pip3 uninstall """+package_name+""" -y
-python setup.py sdist bdist_wheel
-twine upload dist/* --user="""+pypi_user+""" --pass="""+pypi_pass+"""
-python setup.py install"""
-
-
-	commands = commands.split("\n")
-
-	for command in commands:
-		for path in execute_shell(command):
-		    print(path, end="")
-
-	cleaning_before_commit()
+	
+	
