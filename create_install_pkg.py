@@ -216,6 +216,8 @@ if __name__ == '__main__':
 	git_url = 'https://github.com/ShaonMajumder/shaonutil'
 	github_user = 'smazoomder@gmail.com'
 	github_pass = 'shaonmterobist170892'
+
+	release_tag = input("Give New Release tag : ")
 	make_release(release_tag,git_url,github_user,github_pass)
 
 
