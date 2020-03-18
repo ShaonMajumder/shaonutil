@@ -263,12 +263,12 @@ if __name__ == '__main__':
 	release_tag = input("Give New Release tag : ")
 	make_release(release_tag,git_url,github_user,github_pass)
 
-	upload_to_pypi()
-
 	### git diff-index --quiet HEAD || git commit -m \""""+commit_msg+"""\";
 
 	create_dist()
 
+	upload_to_pypi()
+
 	locally_install()
-	
+
 	cleaning_before_commit()
