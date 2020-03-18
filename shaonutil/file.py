@@ -37,6 +37,7 @@ def write_configuration_ini(configs_par,filename, f_mode='w'):
 		configs_par.write(configfile)
 
 def read_json(filename):
+	"""Read JSON file and return dictionary"""
 	with codecs.open(filename, "r", encoding="utf-8") as fp:
 		data = json.load(fp)
 	#Print Formatted Dictionary
@@ -44,10 +45,12 @@ def read_json(filename):
 	return data
 
 def write_json(obj,filename):
+	"""Write JSON file"""
 	with codecs.open(filename, "w", encoding='utf-8') as fp:
 	    json.dump(obj, fp, indent=1)
 
 def read_file(filename):
+	"""Read File and return lines as list"""
 	with codecs.open(filename, "r", encoding="utf-8") as file_reader:
 		lines = file_reader.readlines()
 
@@ -61,13 +64,22 @@ def read_file(filename):
 	return filtered_lines
 
 def write_file(filename, strs,mode="w"):
-	import codecs
+	"""Write File from string"""
 	with codecs.open(filename, mode, encoding='utf-8') as file_appender:
 		file_appender.writelines(strs)
 
+def read_pickle(filename):
+	# Unpickling
+	with open(filename, "rb") as fp:
+		b = pickle.load(fp)
+	return b
+
+def write_pickle(filename, obj_):
+	with open(filename, "wb") as fp:   #Pickling
+		pickle.dump(obj_, fp)
+
 
 def open_file_with_default_app(filepath):
-	import subprocess
 	if platform.system() == 'Darwin':       # macOS
 	    subprocess.call(('open', filepath))
 	elif platform.system() == 'Windows':    # Windows

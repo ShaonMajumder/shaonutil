@@ -1,5 +1,6 @@
-Go to setup.py, change version string in version number and download url and save
-push changes
-go to github release page, click draft new release, add version string, then publish
-Go to project directory, and build distribution : python setup.py sdist bdist_wheel
-Upload to twine : twine upload dist/* --user=**** --pass=****
+[INPUT Vname] Go to setup.py, change version string in version number and download url and save
+[DELETE build, dist, shaonutil.egg-info]
+[PUSH] push changes
+[Make Release] go to github release page, click draft new release, add version string, then publish
+[BUILD DIST] Go to project directory, and build distribution : python setup.py sdist bdist_wheel
+[UPLOAD] to twine : twine upload dist/* --user=**** --pass=****
