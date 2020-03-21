@@ -200,9 +200,7 @@ def make_release(release_tag,git_url,github_user,github_pass):
 
 
 	
-def upload_to_pypi():
-	pypi_user = input("Give pypi user : ")
-	pypi_pass = input("Give pypi pass : ")
+def upload_to_pypi(pypi_user,pypi_pass):
 	
 	if platform.system() == 'Linux':
 		commands = """twine upload dist/* --user="""+pypi_user+""" --pass="""+pypi_pass
@@ -257,10 +255,10 @@ if __name__ == '__main__':
 
 	commit_push()
 	
-	config = shaonutil.file.read_configuration_ini('private/github.config')
-	git_url = config['GITHUB']['github_project_url']
-	github_user = config['GITHUB']['github_user']
-	github_pass = config['GITHUB']['github_pass']
+	config = shaonutil.file.read_configuration_ini('private/package.config')
+	git_url = config['PACKAGE']['github_project_url']
+	github_user = config['PACKAGE']['github_user']
+	github_pass = config['PACKAGE']['github_pass']
 	release_tag = input("Give New Release tag : ")
 	make_release(release_tag,git_url,github_user,github_pass)
 
@@ -268,7 +266,11 @@ if __name__ == '__main__':
 
 	create_dist()
 
-	upload_to_pypi()
+	pypi_user = config['PACKAGE']['pypi_user']
+	pypi_pass = config['PACKAGE']['pypi_pass']
+	# pypi_user = input("Give pypi user : ")
+	# pypi_pass = input("Give pypi pass : ")
+	upload_to_pypi(pypi_user,pypi_pass)
 
 	locally_install()
 
