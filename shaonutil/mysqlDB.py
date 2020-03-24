@@ -1,47 +1,9 @@
-"""Process"""
 import mysql.connector as mysql
-import os
-import subprocess
-import time
 
-"""
-To Resolve mysql problems:
-go to mysql folder > aria_chk -r
-delete araia_log.### files in mysql data folder
-change the port=3306 to anything else in line 20,28 in my.ini in mysql data folder
-if anything didn't recover then, go to mysqsl/backup, copy everything and go to mysql/data folder , delete everything and past here.
-"""
-
-def start_mysql_server(mysql_bin_folder,mysql_config_file):
-	"""Start mysql server"""
-	DETACHED_PROCESS = 0x00000008	
-	return subprocess.Popen([os.path.join(mysql_bin_folder,"mysqld.exe"),"--defaults-file="+mysql_config_file,"--standalone"],creationflags=DETACHED_PROCESS)
-
-def remove_aria_log(mysql_data_dir):
-	"""Removing aria_log.### files to in mysql data dir to restart mysql"""
-	aria_log_files = [file for file in os.listdir(mysql_data_dir) if 'aria_log.' in file]
-	for aria_log in aria_log_files:
-		aria_log = os.path.join(mysql_data_dir,aria_log)
-		os.remove(aria_log)
-
-def get_mysql_datadir(mysql_bin_folder,user,pass_=''):
-	"""Get mysql data directory"""
-	process = subprocess.Popen([os.path.join(mysql_bin_folder,"mysql"),"--user="+user,"--password="+pass_,"-e","select @@datadir;"],stdout=subprocess.PIPE)
-	out, err = process.communicate()
-	out = [line for line in out.decode('utf8').replace("\r\n","\n").split('\n') if line != ''][-1]
-	datadir = out.replace('\\\\','\\')
-	return datadir
-
-
-#myNowMYSQL = MySQL(config._sections['DB_INITIALIZE'])
-#{'host': 'localhost', 'user': 'root', 'password': ''}
-
-#myNowMYSQL.config = config._sections['DB_AUTHENTICATION']
 class MySQL:
 	def __init__(self,config,log=False):
 		self.log = log
 		self.config = config
-
 
 	def __del__(self):
 	    self._cursor.close()
@@ -108,7 +70,6 @@ class MySQL:
 		print("MySQL > List of users:")
 		for user in userList:
 		    host_,user_ = user
-		    print(user)
 		    print("   ","host =",host_+",","user =",user_)
 
 
@@ -168,7 +129,6 @@ class MySQL:
 		cursor = self._cursor
 		print("MySQL > Creating table "+tbname+" ...")
 		cursor.execute("CREATE TABLE "+tbname+" (id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,"+''.join([' '+info+' '+column_info[info]+',' for info in column_info])[:-1]+")")
-
 
 def get_unique_id_from_field(config,key_length,field_name):
 	
