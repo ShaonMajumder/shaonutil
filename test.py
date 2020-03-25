@@ -1,2 +1,0 @@
-from shaonutil.strings import generateCryptographicallySecureRandomString
-print(generateCryptographicallySecureRandomString(stringLength=2))

@@ -1,5 +1,6 @@
 # Utility Functions for developers
 Author: Shaon Majumder
+Stable Version: 0.0.0.46.1
 
 ## Utilities
 - stats
