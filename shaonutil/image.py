@@ -1,5 +1,16 @@
 """Image"""
 from PIL import Image,ImageDraw,ImageFont,ImageOps
+from svglib.svglib import svg2rlg
+from reportlab.graphics import renderPDF, renderPM
+
+def svg2img(infile,outfile):
+	drawing = svg2rlg(infile)
+	ext = outfile.split('.')[-1]
+	renderPM.drawToFile(drawing, outfile, fmt=ext.upper())
+
+def svg2pdf(infile,outfile):
+	drawing = svg2rlg(infile)
+	renderPDF.drawToFile(drawing, outfile)
 
 def change_image_size_ratio(img_name,out_name,percent):
 	im = Image.open(img_name)
@@ -15,7 +26,12 @@ def draw_text(img,text,fnt_name,fnt_size):
 	del d
 	return img
 
-def merge_horizontally(images):
+def merge_horizontally(images,filename=''):
+	if type(images[0]) == Image.Image:
+		pass
+	elif type(images[0]) == str:
+		images = [Image.open(x) for x in images]
+
 	widths, heights = zip(*(i.size for i in images))
 
 	total_width = sum(widths)
@@ -28,9 +44,18 @@ def merge_horizontally(images):
 		new_im.paste(im, (x_offset,0))
 		x_offset += im.size[0]
 
-	return new_im
+	if len(filename)>0:
+		new_im.save(filename)
+		return filename
+	else:
+		return new_im
 
-def merge_vertically(images):
+def merge_vertically(images,filename=''):
+	if type(images[0]) == Image.Image:
+		pass
+	elif type(images[0]) == str:
+		images = [Image.open(x) for x in images]
+
 	widths, heights = zip(*(i.size for i in images))
 
 	max_width = max(widths)
@@ -43,7 +68,12 @@ def merge_vertically(images):
 		new_im.paste(im, (0,y_offset))
 		y_offset += im.size[1]
 
-	return new_im
+	
+	if len(filename)>0:
+		new_im.save(filename)
+		return filename
+	else:
+		return new_im
 
 
 def give_screenshot_caption(img_name,text,fnt_path):

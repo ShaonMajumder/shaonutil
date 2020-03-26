@@ -29,10 +29,16 @@ def generateSecureRandomString(stringLength=10):
     password_characters = string.ascii_letters + string.digits #+ string.punctuation
     return ''.join(secrets.choice(password_characters) for i in range(stringLength))
 
-def generateCryptographicallySecureRandomString(stringLength=10):
+def generateCryptographicallySecureRandomString(stringLength=10,filters=[]):
 	"""Generate a random string in a UUID fromat which is crytographically secure and random"""
-	randomString = uuid.uuid4().hex.upper() 
+	randomString = uuid.uuid4().hex
+	if 'number' in filters:
+		randomString = str(int(randomString,16))
+	else:
+		randomString = randomString.upper()
+	
 	randomString  = randomString[0:stringLength]
+
 	return randomString
 
 if __name__ == '__main__':
