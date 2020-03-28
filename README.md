@@ -5,7 +5,7 @@ Stable Version - 0.0.0.55.1<br>
 Author: Shaon Majumder<br>
 Contact: smazoomder@gmail.com
 
-## ## Area of Utilities
+## Area of Utilities
 
 - file
 - image
