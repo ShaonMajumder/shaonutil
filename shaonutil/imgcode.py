@@ -25,9 +25,7 @@ import PIL
 import os
 
 def calculate_checksum(data):
-    """Calculates the checksum for EAN13-Code / EAN8-Code
-    return type: Integer
-    """
+    """Calculates the checksum for EAN13-Code / EAN8-Code return type: Integer"""
     def sum_(x, y):
         return int(x) + int(y)
 
@@ -170,38 +168,38 @@ def decode(infile,log=False):
 def displayBarcode(im, decodedObjects):
 	"""Mark and show the detected barcode"""
     # Loop over all decoded objects
-    for decodedObject in decodedObjects: 
-        points = decodedObject.polygon
+	for decodedObject in decodedObjects: 
+		points = decodedObject.polygon
 
         # If the points do not form a quad, find convex hull
-        if len(points) > 4 : 
-            hull = cv2.convexHull(np.array([point for point in points], dtype=np.float32))
-            hull = list(map(tuple, np.squeeze(hull)))
-        else : 
-            hull = points;
+		if len(points) > 4 : 
+			hull = cv2.convexHull(np.array([point for point in points], dtype=np.float32))
+			hull = list(map(tuple, np.squeeze(hull)))
+		else : 
+			hull = points;
 
         # Number of points in the convex hull
-        n = len(hull)
+		n = len(hull)
 
         # Draw the convext hull
-        for j in range(0,n):
-            cv2.line(im, hull[j], hull[ (j+1) % n], (255,0,0), 3)
+		for j in range(0,n):
+			cv2.line(im, hull[j], hull[ (j+1) % n], (255,0,0), 3)
 
-    return im
+	return im
 
 def make_barcode_matrix(type_,unique_ids,row_number,column_number,filename):
 	"""Make barcode matrix image"""
-    if not len(unique_ids) == row_number * column_number:
-        raise ValueError("number of ids not equal to row x column size")
+	if not len(unique_ids) == row_number * column_number:
+		raise ValueError("number of ids not equal to row x column size")
     
-    TwoDArray = np.array(unique_ids).reshape(row_number,column_number)
-    column_img = []
-    for row_ids in TwoDArray:
-        row_img  = [encode(type_,'',row_ids[i],rt='OBJ') for i in range(column_number)] 
-        row_concatenated_img = shaonutil.image.merge_horizontally(row_img)
-        column_img.append(row_concatenated_img)
+	TwoDArray = np.array(unique_ids).reshape(row_number,column_number)
+	column_img = []
+	for row_ids in TwoDArray:
+		row_img  = [encode(type_,'',row_ids[i],rt='OBJ') for i in range(column_number)] 
+		row_concatenated_img = shaonutil.image.merge_horizontally(row_img)
+		column_img.append(row_concatenated_img)
 
-    shaonutil.image.merge_vertically(column_img,filename)
+	shaonutil.image.merge_vertically(column_img,filename)
 
 
 def read_live_barcode(detection_threshold = 50):
@@ -281,3 +279,6 @@ def read_live_barcode(detection_threshold = 50):
 	
 	message = data
 	return message, detection_time
+
+module = ''
+print([member for member in dir(module) if callable(getattr(module, member))])
