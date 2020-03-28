@@ -18,81 +18,81 @@ pip install shaonutil
 ## Function Usages
 
 ### None
-Function show_info(functionNode,ModuleName,classobj)
-Function generateModuleFunctionUsageString(ModuleName)
-Function generateDirFunctionUsageString()
-Function get_members(module)
-Function get_file_description_file(module)
-Function createNewReadme()
-Function generateFunctionUsagesString(realcurrentpath)
-Function init(args)
-Function main()
+Function **show_info(functionNode,ModuleName,classobj)**<br>
+Function **generateModuleFunctionUsageString(ModuleName)**<br>
+Function **generateDirFunctionUsageString()**<br>
+Function **get_members(module)**<br>
+Function **get_file_description_file(module)**<br>
+Function **createNewReadme()**<br>
+Function **generateFunctionUsagesString(realcurrentpath)**<br>
+Function **init(args)**<br>
+Function **main()**<br>
 ### File
-Function package_exists(package_name) -> Description: check if a python pcakage exists.
-Function pip_install(package_name)
-Function get_all_functions(object) -> Description: shaonutil.file.get_all_functions(object/file/class)
-Function ConfigSectionMap(Config,section)
-Function read_configuration_ini(filename)
-Function read_safecase_configuration_ini(filename)
-Function write_configuration_ini(configs_par,filename,f_mode)
-Function read_json(filename) -> Description: Read JSON file and return dictionary
-Function write_json(obj,filename) -> Description: Write JSON file
-Function read_file(filename) -> Description: Read File and return lines as list
-Function write_file(filename,strs,mode) -> Description: Write File from string
-Function read_pickle(filename)
-Function write_pickle(filename,obj_)
-Function open_file_with_default_app(filepath)
-Function get_last_file_of_dir(filename)
-Function remove_duplicateLines_from_file(filename)
-Class CaseConfigParser
-    Function optionxform(optionstr)
+Function **package_exists(package_name)** -> Description: check if a python pcakage exists.<br>
+Function **pip_install(package_name)**<br>
+Function **get_all_functions(object)** -> Description: shaonutil.file.get_all_functions(object/file/class)<br>
+Function **ConfigSectionMap(Config,section)**<br>
+Function **read_configuration_ini(filename)**<br>
+Function **read_safecase_configuration_ini(filename)**<br>
+Function **write_configuration_ini(configs_par,filename,f_mode)**<br>
+Function **read_json(filename)** -> Description: Read JSON file and return dictionary<br>
+Function **write_json(obj,filename)** -> Description: Write JSON file<br>
+Function **read_file(filename)** -> Description: Read File and return lines as list<br>
+Function **write_file(filename,strs,mode)** -> Description: Write File from string<br>
+Function **read_pickle(filename)**<br>
+Function **write_pickle(filename,obj_)**<br>
+Function **open_file_with_default_app(filepath)**<br>
+Function **get_last_file_of_dir(filename)**<br>
+Function **remove_duplicateLines_from_file(filename)**<br>
+Class **CaseConfigParser**<br>
+    Function **optionxform(optionstr)**<br>
 ### Image
-Function svg2img(infile,outfile)
-Function svg2pdf(infile,outfile)
-Function change_image_size_ratio(img_name,out_name,percent)
-Function draw_text(img,text,fnt_name,fnt_size)
-Function merge_horizontally(images,filename)
-Function merge_vertically(images,filename)
-Function give_screenshot_caption(img_name,text,fnt_path)
+Function **svg2img(infile,outfile)**<br>
+Function **svg2pdf(infile,outfile)**<br>
+Function **change_image_size_ratio(img_name,out_name,percent)**<br>
+Function **draw_text(img,text,fnt_name,fnt_size)**<br>
+Function **merge_horizontally(images,filename)**<br>
+Function **merge_vertically(images,filename)**<br>
+Function **give_screenshot_caption(img_name,text,fnt_path)**<br>
 ### BarCode
-Function calculate_checksum(data) -> Description: Calculates the checksum for EAN13-Code / EAN8-Code return type: Integer
-Function verify_data(data) -> Description: Verify the EAN encoded data
-Function actual_data(decodedObjects) -> Description: Returns data without checksum digit for EAN type
-Function encode(type_,file_,data,rt) -> Description: Encode the data as barcode or qrcode
-Function decode(infile,log) -> Description: Decode barcode or qrcode
-Function displayBarcode(im,decodedObjects) -> Description: Mark and show the detected barcode
-Function make_barcode_matrix(type_,unique_ids,row_number,column_number,filename) -> Description: Make barcode matrix image
-Function read_live_barcode(detection_threshold) -> Description: Live read the barcode and returns data
+Function **calculate_checksum(data)** -> Description: Calculates the checksum for EAN13-Code / EAN8-Code return type: Integer<br>
+Function **verify_data(data)** -> Description: Verify the EAN encoded data<br>
+Function **actual_data(decodedObjects)** -> Description: Returns data without checksum digit for EAN type<br>
+Function **encode(type_,file_,data,rt)** -> Description: Encode the data as barcode or qrcode<br>
+Function **decode(infile,log)** -> Description: Decode barcode or qrcode<br>
+Function **displayBarcode(im,decodedObjects)** -> Description: Mark and show the detected barcode<br>
+Function **make_barcode_matrix(type_,unique_ids,row_number,column_number,filename)** -> Description: Make barcode matrix image<br>
+Function **read_live_barcode(detection_threshold)** -> Description: Live read the barcode and returns data<br>
 ### Mysql Database
-Function create_configuration(option) -> Description: Creating Configuration
-Class MySQL -> Description: A class for all mysql actions
-    Function __init__(config,log)
-    Function reopen_connection() -> Description: reopen
-    Function close_connection()
-    Function config()
-    Function config(new_value)
-    Function filter_config()
-    Function make_cursor()
-    Function is_mysql_user_exist(mysql_username)
-    Function listMySQLUsers() -> Description: list all mysql users
-    Function createMySQLUser(host,userName,password,querynum,updatenum,connection_num)
-    Function grantMySQLUserAllPrivileges(host,userName,querynum,updatenum,connection_num)
-    Function is_db_exist(dbname)
-    Function create_db(dbname)
-    Function is_table_exist(tbname)
-    Function create_table(tbname,column_info)
-    Function get_columns(tbname)
-    Function get_columns_names(tbname)
-    Function get_unique_id_from_field(key_length,field_name)
-    Function insert_data(value_tupple)
+Function **create_configuration(option)** -> Description: Creating Configuration<br>
+Class **MySQL** -> Description: A class for all mysql actions<br>
+    Function **__init__(config,log)**<br>
+    Function **reopen_connection()** -> Description: reopen<br>
+    Function **close_connection()**<br>
+    Function **config()**<br>
+    Function **config(new_value)**<br>
+    Function **filter_config()**<br>
+    Function **make_cursor()**<br>
+    Function **is_mysql_user_exist(mysql_username)**<br>
+    Function **listMySQLUsers()** -> Description: list all mysql users<br>
+    Function **createMySQLUser(host,userName,password,querynum,updatenum,connection_num)**<br>
+    Function **grantMySQLUserAllPrivileges(host,userName,querynum,updatenum,connection_num)**<br>
+    Function **is_db_exist(dbname)**<br>
+    Function **create_db(dbname)**<br>
+    Function **is_table_exist(tbname)**<br>
+    Function **create_table(tbname,column_info)**<br>
+    Function **get_columns(tbname)**<br>
+    Function **get_columns_names(tbname)**<br>
+    Function **get_unique_id_from_field(key_length,field_name)**<br>
+    Function **insert_data(value_tupple)**<br>
 ### Network
-Function url_encoding_to_utf_8(url) -> Description: url_encoding_to_utf_8(url)
-Function check_valid_url(url)
-Class Email
-    Function __init__()
-    Function authentication()
-    Function authentication(new_value)
-    Function send_email(receiver_address,subject,mail_content,attachment_file_link,log)
+Function **url_encoding_to_utf_8(url)** -> Description: url_encoding_to_utf_8(url)<br>
+Function **check_valid_url(url)**<br>
+Class **Email**<br>
+    Function **__init__()**<br>
+    Function **authentication()**<br>
+    Function **authentication(new_value)**<br>
+    Function **send_email(receiver_address,subject,mail_content,attachment_file_link,log)**<br>
 ### OS routines for NT or Posix depending on what system we're on.
 
 This exports:
@@ -116,31 +116,31 @@ and opendir), and leave all pathname manipulation to os.path
 (e.g., split and join).
 
 ### Process
-Function is_process_exist(process_name)
-Function kill_duplicate_process(process_name,log) -> Description: Kill a process if there is more than one instance is running.
-Function killProcess_ByAll(PROCNAME)
-Function killProcess_ByPid(pid)
-Function list_processes(sort,save_file,log)
-Function start_mysql_server(mysql_bin_folder,mysql_config_file) -> Description: Start mysql server
-Function remove_aria_log(mysql_data_dir) -> Description: Removing aria_log.### files to in mysql data dir to restart mysql
-Function get_mysql_datadir(mysql_bin_folder,user,pass_) -> Description: Get mysql data directory
-Function computer_idle_mode()
-Function obj_details_dump(obj) -> Description: check dump
+Function **is_process_exist(process_name)**<br>
+Function **kill_duplicate_process(process_name,log)** -> Description: Kill a process if there is more than one instance is running.<br>
+Function **killProcess_ByAll(PROCNAME)**<br>
+Function **killProcess_ByPid(pid)**<br>
+Function **list_processes(sort,save_file,log)**<br>
+Function **start_mysql_server(mysql_bin_folder,mysql_config_file)** -> Description: Start mysql server<br>
+Function **remove_aria_log(mysql_data_dir)** -> Description: Removing aria_log.### files to in mysql data dir to restart mysql<br>
+Function **get_mysql_datadir(mysql_bin_folder,user,pass_)** -> Description: Get mysql data directory<br>
+Function **computer_idle_mode()**<br>
+Function **obj_details_dump(obj)** -> Description: check dump<br>
 ### Statistics
-Function counter(li,number)
-Function occurance_dic(li)
-Function mean(li) -> Description: Avearage or mean of elements - shaonutil.stats.mean(list of numbers)
-Function median(li) -> Description: Median of elements - shaonutil.stats.median(list of numbers)
-Function mode(li) -> Description: Mode of elements - shaonutil.stats.mode(list of numbers)
+Function **counter(li,number)**<br>
+Function **occurance_dic(li)**<br>
+Function **mean(li)** -> Description: Avearage or mean of elements - shaonutil.stats.mean(list of numbers)<br>
+Function **median(li)** -> Description: Median of elements - shaonutil.stats.median(list of numbers)<br>
+Function **mode(li)** -> Description: Mode of elements - shaonutil.stats.mode(list of numbers)<br>
 ### String
-Function nicely_print(dictionary,print) -> Description: Prints the nicely formatted dictionary - shaonutil.strings.nicely_print(object)
-Function change_dic_key(dic,old_key,new_key) -> Description: Change dictionary key with new key
-Function randomString(stringLength) -> Description: Generate a random string of fixed length 
-Function generateSecureRandomString(stringLength) -> Description: Generate a secure random string of letters, digits and special characters 
-Function generateCryptographicallySecureRandomString(stringLength,filters) -> Description: Generate a random string in a UUID fromat which is crytographically secure and random
+Function **nicely_print(dictionary,print)** -> Description: Prints the nicely formatted dictionary - shaonutil.strings.nicely_print(object)<br>
+Function **change_dic_key(dic,old_key,new_key)** -> Description: Change dictionary key with new key<br>
+Function **randomString(stringLength)** -> Description: Generate a random string of fixed length <br>
+Function **generateSecureRandomString(stringLength)** -> Description: Generate a secure random string of letters, digits and special characters <br>
+Function **generateCryptographicallySecureRandomString(stringLength,filters)** -> Description: Generate a random string in a UUID fromat which is crytographically secure and random<br>
 ### Windows
-Function is_winapp_admin()
-Function get_UAC_permission(func)
+Function **is_winapp_admin()**<br>
+Function **get_UAC_permission(func)**<br>
 
 
 Function Usages End
