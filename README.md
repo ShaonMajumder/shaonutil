@@ -1,20 +1,14 @@
-# Shaonutil  - 0.0.0.51.1
+# Shaonutil  - 0.0.0.54.1
 ## Utility Functions for Developers
 
-Stable Version - 0.0.0.51.1<br>
-Author: Shaon Majumder<br>
+Stable Version - 0.0.0.54.1
+Author: Shaon Majumder
 Contact: smazoomder@gmail.com
 
 ## Utilities
 
-- stats
-- network
-- image
-- string
-- file
-
 ## Installation
-pip install shaonutil
+<code>pip install shaonutil</code>
 ## Function Usages
 
 ### File
