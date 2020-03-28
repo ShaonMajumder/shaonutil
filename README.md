@@ -7,8 +7,20 @@ Contact: smazoomder@gmail.com
 
 ## Utilities
 
+- file
+- image
+- imgcode
+- mysqlDB
+- network
+- os
+- process
+- stats
+- strings
+- windows
+
 ## Installation
 <code>pip install shaonutil</code>
+
 ## Function Usages
 
 ### File
