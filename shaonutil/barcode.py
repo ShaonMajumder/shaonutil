@@ -1,3 +1,4 @@
+"""BarCode"""
 #https://note.nkmk.me/en/python-pillow-qrcode/
 #from barcode import EAN8,Code128,Code39
 # encode,decode,display,actual_data,make_barcode_matrix
@@ -35,11 +36,13 @@ def calculate_checksum(data):
     return (10 - ((evensum + oddsum * 3) % 10)) % 10
 
 def verify_data(data):
+	"""Verify the EAN encoded data"""
 	verification_digit = int(data[-1])
 	check_digit = data[:-1]
 	return verification_digit == calculate_checksum(check_digit)
 
 def actual_data(decodedObjects):
+	"""Returns data without checksum digit for EAN type"""
 	if len(decodedObjects) > 0:
 		obj = decodedObjects[0]
 		data = obj.data.decode('ascii')
@@ -56,6 +59,7 @@ def actual_data(decodedObjects):
 
 
 def encode(type_,file_,data,rt='FILE'):
+	"""Encode the data as barcode or qrcode"""
 	# rt = 'OBJ'
 	__BARCODE_MAP['qrcode'] = ''
 	if not type_.lower() in __BARCODE_MAP:
@@ -145,6 +149,7 @@ def encode(type_,file_,data,rt='FILE'):
 
 	
 def decode(infile,log=False):
+	"""Decode barcode or qrcode"""
 	if type(infile) == str:
 		im = cv2.imread(infile)
 	elif type(infile) == np.ndarray:
@@ -162,8 +167,8 @@ def decode(infile,log=False):
 	return decodedObjects
 
 
-def display(im, decodedObjects):
-
+def displayBarcode(im, decodedObjects):
+	"""Mark and show the detected barcode"""
     # Loop over all decoded objects
     for decodedObject in decodedObjects: 
         points = decodedObject.polygon
@@ -185,6 +190,7 @@ def display(im, decodedObjects):
     return im
 
 def make_barcode_matrix(type_,unique_ids,row_number,column_number,filename):
+	"""Make barcode matrix image"""
     if not len(unique_ids) == row_number * column_number:
         raise ValueError("number of ids not equal to row x column size")
     
@@ -199,6 +205,7 @@ def make_barcode_matrix(type_,unique_ids,row_number,column_number,filename):
 
 
 def read_live_barcode(detection_threshold = 50):
+	"""Live read the barcode and returns data"""
 	##detection_threshold = 50 # 1 sec
 	##detection_threshold = 100 # 2 sec
 
