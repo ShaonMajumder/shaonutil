@@ -17,16 +17,6 @@ Contact: smazoomder@gmail.com
 pip install shaonutil
 ## Function Usages
 
-### None
-Function **show_info(functionNode,ModuleName,classobj)**<br>
-Function **generateModuleFunctionUsageString(ModuleName)**<br>
-Function **generateDirFunctionUsageString()**<br>
-Function **get_members(module)**<br>
-Function **get_file_description_file(module)**<br>
-Function **createNewReadme()**<br>
-Function **generateFunctionUsagesString(realcurrentpath)**<br>
-Function **init(args)**<br>
-Function **main()**<br>
 ### File
 Function **package_exists(package_name)** -> Description: check if a python pcakage exists.<br>
 Function **pip_install(package_name)**<br>
@@ -45,7 +35,7 @@ Function **open_file_with_default_app(filepath)**<br>
 Function **get_last_file_of_dir(filename)**<br>
 Function **remove_duplicateLines_from_file(filename)**<br>
 Class **CaseConfigParser**<br>
-    Function **optionxform(optionstr)**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **optionxform(optionstr)**<br>
 ### Image
 Function **svg2img(infile,outfile)**<br>
 Function **svg2pdf(infile,outfile)**<br>
@@ -66,33 +56,33 @@ Function **read_live_barcode(detection_threshold)** -> Description: Live read th
 ### Mysql Database
 Function **create_configuration(option)** -> Description: Creating Configuration<br>
 Class **MySQL** -> Description: A class for all mysql actions<br>
-    Function **__init__(config,log)**<br>
-    Function **reopen_connection()** -> Description: reopen<br>
-    Function **close_connection()**<br>
-    Function **config()**<br>
-    Function **config(new_value)**<br>
-    Function **filter_config()**<br>
-    Function **make_cursor()**<br>
-    Function **is_mysql_user_exist(mysql_username)**<br>
-    Function **listMySQLUsers()** -> Description: list all mysql users<br>
-    Function **createMySQLUser(host,userName,password,querynum,updatenum,connection_num)**<br>
-    Function **grantMySQLUserAllPrivileges(host,userName,querynum,updatenum,connection_num)**<br>
-    Function **is_db_exist(dbname)**<br>
-    Function **create_db(dbname)**<br>
-    Function **is_table_exist(tbname)**<br>
-    Function **create_table(tbname,column_info)**<br>
-    Function **get_columns(tbname)**<br>
-    Function **get_columns_names(tbname)**<br>
-    Function **get_unique_id_from_field(key_length,field_name)**<br>
-    Function **insert_data(value_tupple)**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **__init__(config,log)**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **reopen_connection()** -> Description: reopen<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **close_connection()**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **config()**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **config(new_value)**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **filter_config()**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **make_cursor()**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **is_mysql_user_exist(mysql_username)**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **listMySQLUsers()** -> Description: list all mysql users<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **createMySQLUser(host,userName,password,querynum,updatenum,connection_num)**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **grantMySQLUserAllPrivileges(host,userName,querynum,updatenum,connection_num)**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **is_db_exist(dbname)**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **create_db(dbname)**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **is_table_exist(tbname)**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **create_table(tbname,column_info)**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **get_columns(tbname)**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **get_columns_names(tbname)**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **get_unique_id_from_field(key_length,field_name)**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **insert_data(value_tupple)**<br>
 ### Network
 Function **url_encoding_to_utf_8(url)** -> Description: url_encoding_to_utf_8(url)<br>
 Function **check_valid_url(url)**<br>
 Class **Email**<br>
-    Function **__init__()**<br>
-    Function **authentication()**<br>
-    Function **authentication(new_value)**<br>
-    Function **send_email(receiver_address,subject,mail_content,attachment_file_link,log)**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **__init__()**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **authentication()**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **authentication(new_value)**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **send_email(receiver_address,subject,mail_content,attachment_file_link,log)**<br>
 ### OS routines for NT or Posix depending on what system we're on.
 
 This exports:
