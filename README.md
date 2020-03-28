@@ -1,8 +1,8 @@
-# Shaonutil  - 0.0.0.54.1
+# Shaonutil  - 0.0.0.55.1
 ## Utility Functions for Developers
 
-Stable Version - 0.0.0.54.1
-Author: Shaon Majumder
+Stable Version - 0.0.0.55.1<br>
+Author: Shaon Majumder<br>
 Contact: smazoomder@gmail.com
 
 ## Utilities
