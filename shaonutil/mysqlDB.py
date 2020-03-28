@@ -1,3 +1,4 @@
+"""Mysql Database"""
 from tkinter import ttk,Tk,Label,Entry
 from shaonutil.strings import generateCryptographicallySecureRandomString
 import tkinter as tk
@@ -5,11 +6,13 @@ import mysql.connector as mysql
 
 
 class MySQL:
+	"""A class for all mysql actions"""
 	def __init__(self,config,log=False):
 		self.log = log
 		self.config = config
 
 	def reopen_connection(self):
+		"""reopen"""
 		print("MySQL > Explicitly opening connection ...")
 		self.make_cursor()
 
@@ -206,6 +209,7 @@ class MySQL:
 		print(cursor.rowcount, "record inserted")
 
 def create_configuration(option='cli'):
+	"""Creating Configuration"""
 	if option == 'cli':
 		print('Getting your configurations to save it.\n')
 		print('\nDatabase configurations -')

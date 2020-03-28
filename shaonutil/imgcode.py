@@ -279,6 +279,3 @@ def read_live_barcode(detection_threshold = 50):
 	
 	message = data
 	return message, detection_time
-
-module = ''
-print([member for member in dir(module) if callable(getattr(module, member))])

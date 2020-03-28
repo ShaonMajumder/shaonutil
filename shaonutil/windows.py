@@ -1,3 +1,4 @@
+"""Windows"""
 import ctypes, sys
 def is_winapp_admin():
     try:
