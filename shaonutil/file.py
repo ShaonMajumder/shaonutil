@@ -1,7 +1,12 @@
 """File"""
 from pip._internal import main as pipmain
+from os.path import dirname, basename, isfile, join
 import json,codecs,configparser,subprocess,platform,os,glob,shaonutil,pickle,importlib,pip
 
+def get_all_dirs():
+    return [basename(file_) for file_ in glob.glob(join(os.getcwd(), "*")) if  os.path.isdir(file_) and not '..' in file_]
+def get_all_files_dirs():
+    return [basename(file_) for file_ in glob.glob(join(os.getcwd(), "*")) if not '..' in file_]
 
 def package_exists(package_name):
 	"""check if a python pcakage exists."""
@@ -65,17 +70,20 @@ def write_json(obj,filename):
 
 def read_file(filename):
 	"""Read File and return lines as list"""
-	with codecs.open(filename, "r", encoding="utf-8") as file_reader:
-		lines = file_reader.readlines()
+	if os.path.exists(filename):
+		with codecs.open(filename, "r", encoding="utf-8") as file_reader:
+			lines = file_reader.readlines()
 
-	ill_chars = ['\r','\n']
-	_ = []
-	for line in lines:
-		for ic in ill_chars:
-			line = line.replace(ic,'')
-		_.append(line)
-	filtered_lines = _
-	return filtered_lines
+		ill_chars = ['\r','\n']
+		_ = []
+		for line in lines:
+			for ic in ill_chars:
+				line = line.replace(ic,'')
+			_.append(line)
+		filtered_lines = _
+		return filtered_lines
+	else:
+		return False
 
 def write_file(filename, strs,mode="w"):
 	"""Write File from string"""

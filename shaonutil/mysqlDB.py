@@ -17,6 +17,7 @@ class MySQL:
 		self.make_cursor()
 
 	def close_connection(self):
+		"""closing the connection"""
 		print("MySQL > Explicitly closing connection ...")
 		self._cursor.close()
 		self.mySQLConnection.close()
@@ -63,6 +64,7 @@ class MySQL:
 		self._cursor = mySQLConnection.cursor()
 
 	def is_mysql_user_exist(self,mysql_username):
+		"""check if mysql user exist return type:boolean"""
 		mySQLCursor = self._cursor
 		mySqlListUsers = "select host, user from mysql.user;"
 		mySQLCursor.execute(mySqlListUsers)

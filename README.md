@@ -24,6 +24,8 @@ Contact: smazoomder@gmail.com
 ## Function Usages
 
 ### File
+Function **get_all_dirs()**<br>
+Function **get_all_files_dirs()**<br>
 Function **package_exists(package_name)** -> Description: check if a python pcakage exists.<br>
 Function **pip_install(package_name)**<br>
 Function **get_all_functions(object)** -> Description: shaonutil.file.get_all_functions(object/file/class)<br>
@@ -64,12 +66,12 @@ Function **create_configuration(option)** -> Description: Creating Configuration
 Class **MySQL** -> Description: A class for all mysql actions<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **__init__(config,log)**<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **reopen_connection()** -> Description: reopen<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Function **close_connection()**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **close_connection()** -> Description: closing the connection<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **config()**<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **config(new_value)**<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **filter_config()**<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **make_cursor()**<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Function **is_mysql_user_exist(mysql_username)**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **is_mysql_user_exist(mysql_username)** -> Description: check if mysql user exist return type:boolean<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **listMySQLUsers()** -> Description: list all mysql users<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **createMySQLUser(host,userName,password,querynum,updatenum,connection_num)**<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **grantMySQLUserAllPrivileges(host,userName,querynum,updatenum,connection_num)**<br>
