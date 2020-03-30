@@ -91,28 +91,6 @@ Class **Email**<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **authentication()**<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **authentication(new_value)**<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **send_email(receiver_address,subject,mail_content,attachment_file_link,log)**<br>
-### OS routines for NT or Posix depending on what system we're on.
-
-This exports:
-  - all functions from posix or nt, e.g. unlink, stat, etc.
-  - os.path is either posixpath or ntpath
-  - os.name is either 'posix' or 'nt'
-  - os.curdir is a string representing the current directory (always '.')
-  - os.pardir is a string representing the parent directory (always '..')
-  - os.sep is the (or a most common) pathname separator ('/' or '\\')
-  - os.extsep is the extension separator (always '.')
-  - os.altsep is the alternate pathname separator (None or '/')
-  - os.pathsep is the component separator used in $PATH etc
-  - os.linesep is the line separator in text files ('\r' or '\n' or '\r\n')
-  - os.defpath is the default search path for executables
-  - os.devnull is the file path of the null device ('/dev/null', etc.)
-
-Programs that import and use 'os' stand a better chance of being
-portable between different platforms.  Of course, they must then
-only use functions that are defined by all platforms (e.g., unlink
-and opendir), and leave all pathname manipulation to os.path
-(e.g., split and join).
-
 ### Process
 Function **is_process_exist(process_name)**<br>
 Function **kill_duplicate_process(process_name,log)** -> Description: Kill a process if there is more than one instance is running.<br>
