@@ -3,7 +3,7 @@ from tkinter import ttk,Tk,Label,Entry
 import tkinter as tk
 from shaonutil.strings import generateCryptographicallySecureRandomString
 import mysql.connector as mysql
-
+import subprocess
 
 class MySQL:
 	"""A class for all mysql actions"""
@@ -277,3 +277,31 @@ def create_configuration(option='cli'):
 
 		btn = ttk.Button(window ,text="Submit",command=clicked).grid(row=9,column=0)
 		window.mainloop()
+
+def start_mysql_server(mysql_bin_folder,mysql_config_file):
+	"""Start mysql server"""
+	DETACHED_PROCESS = 0x00000008
+	if not shaonutil.process.is_process_exist('mysqld.exe'):
+		process = subprocess.Popen([os.path.join(mysql_bin_folder,"mysqld.exe"),"--defaults-file="+mysql_config_file,"--standalone"],creationflags=DETACHED_PROCESS)
+		print("Starting mysql server at pid",process.pid)
+		return process
+	else:
+		print("MYSQL Server is already running at pid ",shaonutil.process.is_process_exist('mysqld.exe'))
+		
+
+
+def remove_aria_log(mysql_data_dir):
+	"""Removing aria_log.### files to in mysql data dir to restart mysql"""
+	aria_log_files = [file for file in os.listdir(mysql_data_dir) if 'aria_log.' in file]
+
+	for aria_log in aria_log_files:
+		aria_log = os.path.join(mysql_data_dir,aria_log)
+		os.remove(aria_log)
+
+def get_mysql_datadir(mysql_bin_folder,user,pass_=''):
+	"""Get mysql data directory"""
+	process = subprocess.Popen([os.path.join(mysql_bin_folder,"mysql"),"--user="+user,"--password="+pass_,"-e","select @@datadir;"],stdout=subprocess.PIPE)
+	out, err = process.communicate()
+	out = [line for line in out.decode('utf8').replace("\r\n","\n").split('\n') if line != ''][-1]
+	datadir = out.replace('\\\\','\\')
+	return datadir
