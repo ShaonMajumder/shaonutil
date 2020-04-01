@@ -165,7 +165,6 @@ class MySQL:
 		
 		while True:
 			query = "SELECT * FROM "+table+" WHERE `"+field_name+"` = '"+sid+"'"
-			print(query)
 
 			## getting records from the table
 			cursor.execute(query)
