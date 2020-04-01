@@ -4,12 +4,58 @@ import tkinter as tk
 from shaonutil.strings import generateCryptographicallySecureRandomString
 import mysql.connector as mysql
 import subprocess
+import shaonutil
+import os
 
 class MySQL:
 	"""A class for all mysql actions"""
-	def __init__(self,config,log=False):
+	def __init__(self,config,init_start_server=True,log=False):
 		self.log = log
+		self.init_start_server = init_start_server
 		self.config = config
+
+	def start_mysql_server(self):
+		"""Start mysql server"""
+		# --defaults-file=my.ini ->  mysql_config_file
+		# instead
+		# --port
+		
+		# --console If you omit the --console option, the server writes diagnostic output to the error log in the data directory
+		# --log-error = error file
+		# --debug - mysqld writes a log file C:\mysqld.trace that should contain the reason why mysqld doesn't start
+
+		mysql_bin_folder = self._config['mysql_bin_folder']
+
+		DETACHED_PROCESS = 0x00000008
+		pids = shaonutil.process.is_process_exist('mysqld.exe')
+		if not pids:
+			#process = subprocess.Popen([os.path.join(mysql_bin_folder,"mysqld.exe"),"--defaults-file="+mysql_config_file,"--standalone","--debug"],creationflags=DETACHED_PROCESS)
+			process = subprocess.Popen([os.path.join(mysql_bin_folder,"mysqld.exe"),"--standalone","--debug"],creationflags=DETACHED_PROCESS)
+			print("Starting mysql server at pid",process.pid)
+			return process
+		else:
+			print("MYSQL Server is already running at pids",pids)
+
+	def stop_mysql_server(self,force=False):
+		"""Stop MySQL Server"""
+		# mysql_config_file
+		mysql_bin_folder = self._config['mysql_bin_folder']
+		user = self._config['user']
+		password = self._config['password']
+
+		pids = shaonutil.process.is_process_exist('mysqld.exe')
+		if pids:
+			print("MYSQL running at pids",pids)
+			if force == True:
+				shaonutil.process.killProcess_ByAll("mysqld.exe")
+				print("Forced stop MySQL Server ...")
+			else:
+				DETACHED_PROCESS = 0x00000008	
+				#mysqladmin -u robist_shaon --password=sh170892  shutdown
+				process = subprocess.Popen([os.path.join(mysql_bin_folder,"mysqladmin.exe"),"-u",user,"--password="+password,"shutdown"]) # ,creationflags=DETACHED_PROCESS
+				print("Stopping MySQL Server ...")
+		else:
+			print("MYSQL Server is not already running... , you can not close.")
 
 	def reopen_connection(self):
 		"""reopen"""
@@ -40,6 +86,9 @@ class MySQL:
 				break
 
 	def make_cursor(self):
+		if self.init_start_server:
+			self.start_mysql_server()
+
 		try:
 			# Connection parameters and access credentials
 			if 'database' in self._config:
@@ -210,7 +259,7 @@ class MySQL:
 
 		print(cursor.rowcount, "record inserted")
 
-def create_configuration(option='cli'):
+def create_configuration(option='cli',file_name = "private/config.ini"):
 	"""Creating Configuration"""
 	if option == 'cli':
 		print('Getting your configurations to save it.\n')
@@ -223,9 +272,24 @@ def create_configuration(option='cli'):
 
 		mysql_bin_folder = input('Give your path of mysql bin folder : ')
 
-		f = open("private/config.ini", "w+")
-		f.writelines(["; config file\n", "[db_authentication]\n", "host = "+dbhost+"\n", "user = "+dbuser+"\n", "password = "+dbpassword+"\n", "database = "+dbname+"\n", "table = "+dbtable+"\n","[MYSQL]\n","mysql_bin_folder = "+mysql_bin_folder+"\n","[DB_INITIALIZE]\n","host = localhost\n","usr = root\n","passwd = \n"])
-		f.close()
+		configstr = f"""; config file
+[DB_INITIALIZE]
+mysql_bin_folder = {mysql_bin_folder}
+host = localhost
+user = root
+password = 
+[DB_AUTHENTICATION]
+mysql_bin_folder = {mysql_bin_folder}
+host = {dbhost}
+user = {dbuser}
+password = {dbpassword}
+database = {dbname}
+table = {dbtable}
+[MYSQL]
+mysql_bin_folder = {mysql_bin_folder}"""
+
+		shaonutil.file.write_file(file_name,configstr)
+
 	elif option == 'gui':
 		window = Tk()
 		window.title("Welcome to DB Config")
@@ -268,26 +332,30 @@ def create_configuration(option='cli'):
 			dbname = dbname_.get()
 			dbtable = dbtable_.get()
 
-			f = open("private/config.ini", "w+")
-			f.writelines(["; config file\n", "[db_authentication]\n", "host = "+dbhost+"\n", "user = "+dbuser+"\n", "password = "+dbpassword+"\n", "database = "+dbname+"\n", "table = "+dbtable+"\n","[MYSQL]\n","mysql_bin_folder = "+mysql_bin_folder+"\n","[DB_INITIALIZE]\n","host = localhost\n","usr = root\n","passwd = \n"])
-			f.close()
+			configstr = f"""; config file
+[DB_INITIALIZE]
+mysql_bin_folder = {mysql_bin_folder}
+host = localhost
+user = root
+password = 
+[DB_AUTHENTICATION]
+mysql_bin_folder = {mysql_bin_folder}
+host = {dbhost}
+user = {dbuser}
+password = {dbpassword}
+database = {dbname}
+table = {dbtable}
+[MYSQL]
+mysql_bin_folder = {mysql_bin_folder}"""
+
+			shaonutil.file.write_file(file_name,configstr)
+
 			window.destroy()
 
 
 
 		btn = ttk.Button(window ,text="Submit",command=clicked).grid(row=9,column=0)
 		window.mainloop()
-
-def start_mysql_server(mysql_bin_folder,mysql_config_file):
-	"""Start mysql server"""
-	DETACHED_PROCESS = 0x00000008
-	if not shaonutil.process.is_process_exist('mysqld.exe'):
-		process = subprocess.Popen([os.path.join(mysql_bin_folder,"mysqld.exe"),"--defaults-file="+mysql_config_file,"--standalone"],creationflags=DETACHED_PROCESS)
-		print("Starting mysql server at pid",process.pid)
-		return process
-	else:
-		print("MYSQL Server is already running at pid ",shaonutil.process.is_process_exist('mysqld.exe'))
-		
 
 
 def remove_aria_log(mysql_data_dir):
