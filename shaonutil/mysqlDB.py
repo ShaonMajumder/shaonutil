@@ -1,7 +1,7 @@
 """Mysql Database"""
 from tkinter import ttk,Tk,Label,Entry
-from shaonutil.strings import generateCryptographicallySecureRandomString
 import tkinter as tk
+from shaonutil.strings import generateCryptographicallySecureRandomString
 import mysql.connector as mysql
 
 
@@ -155,12 +155,13 @@ class MySQL:
 		columns = self.get_columns(tbname)
 		return [column_name for column_name, *_ in columns]
 
-	def get_unique_id_from_field(self,key_length,field_name):
+	def get_unique_id_from_field(self,field_name,key_length,filters=[]):
 		table = self._config['table']
 
 		cursor = self._cursor
 
-		sid = generateCryptographicallySecureRandomString(key_length)
+		sid = generateCryptographicallySecureRandomString(stringLength=key_length,filters=filters)
+		
 		
 		while True:
 			query = "SELECT * FROM "+table+" WHERE `"+field_name+"` = '"+sid+"'"
@@ -179,7 +180,7 @@ class MySQL:
 
 			if(len(records)>1):
 				print("matched with previously stored sid")
-				sid = generateCryptographicallySecureRandomString(key_length)
+				sid = generateCryptographicallySecureRandomString(stringLength=key_length,filters=filters)
 			else:
 				print("Got unique sid")
 				break

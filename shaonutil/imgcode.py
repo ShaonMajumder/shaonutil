@@ -1,5 +1,7 @@
 """BarCode"""
 #https://note.nkmk.me/en/python-pillow-qrcode/
+#https://www.barcodefaq.com/best-to-use/
+#https://www.barcodefaq.com/wp-content/uploads/2018/10/Barcoding4Beginners.pdf
 #from barcode import EAN8,Code128,Code39
 # encode,decode,display,actual_data,make_barcode_matrix
 try:
