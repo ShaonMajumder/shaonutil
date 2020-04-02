@@ -363,6 +363,7 @@ mysql_bin_folder = {mysql_bin_folder}"""
 
 
 
+
 		btn = ttk.Button(window ,text="Submit",command=clicked).grid(row=9,column=0)
 		window.mainloop()
 
