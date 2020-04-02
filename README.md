@@ -81,12 +81,18 @@ Class **MySQL** -> Description: A class for all mysql actions<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **grantMySQLUserAllPrivileges(host,userName,querynum,updatenum,connection_num)** -> Description: Grant a user all privilages<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **is_db_exist(dbname)** -> Description: Check if database exist<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **create_db(dbname)** -> Description: Create Database<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Function **is_table_exist(tbname)** -> Description: Check if table exist<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **delete_db(dbname)** -> Description: Delete Database<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **get_databases()** -> Description: Get databases names<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **create_table(tbname,column_info)** -> Description: Create a table under a database<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Function **get_columns(tbname)**<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Function **get_columns_names(tbname)** -> Description: Get column names of a table<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **delete_table(tbname)** -> Description: Delete a table under a database<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **get_tables()** -> Description: Get table names<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **describe_table(tbname)** -> Description: Describe a table structure<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **is_table_exist(tbname)** -> Description: Check if table exist<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **get_columns(tbname)** -> Description: Get column names of a table<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **show_table(tbname)**<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **get_unique_id_from_field(field_name,key_length,filters)** -> Description: Get a random unique id not registered in a specific field<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Function **insert_data(value_tupple)** -> Description: Insert row of data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **delete_row(delete_dict)** -> Description: Delete a row of data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **insert_row(value_tupple)** -> Description: Insert row of data<br>
 ### Network
 Function **url_encoding_to_utf_8(url)** -> Description: url_encoding_to_utf_8(url)<br>
 Function **check_valid_url(url)**<br>

@@ -6,6 +6,7 @@ import mysql.connector as mysql
 import subprocess
 import shaonutil
 import os
+import pandas
 
 class MySQL:
 	"""A class for all mysql actions"""
@@ -126,14 +127,22 @@ class MySQL:
 
 	def listMySQLUsers(self):
 		"""list all mysql users"""
-		mySQLCursor = self._cursor
-		mySqlListUsers = "select host, user from mysql.user;"
-		mySQLCursor.execute(mySqlListUsers)
-		userList = mySQLCursor.fetchall()
-		print("MySQL > List of users:")
-		for user in userList:
-		    host_,user_ = user
-		    print("   ","host =",host_+",","user =",user_)
+		cursor = self._cursor
+		mySqlListUsers = "SELECT Host,User FROM MYSQL.USER"
+		cursor.execute(mySqlListUsers)
+		rows = cursor.fetchall()
+		print("MySQL > Listing MySQL Users ...")
+		
+		data = {
+			'Host' : [],
+			'User' : [],
+		}
+		
+		for row in rows:
+			data = { key:data[key] + [row[list(data).index(key)]] for key in data}
+		
+		dbf = pandas.DataFrame(data)
+		print(dbf)
 
 
 	def createMySQLUser(self, host, userName, password,
@@ -166,11 +175,7 @@ class MySQL:
 
 	def is_db_exist(self,dbname):
 		"""Check if database exist"""
-		cursor = self._cursor
-
-		cursor.execute("SHOW DATABASES")
-		databases = cursor.fetchall()
-		databases = [x[0] for x in databases]
+		databases = self.get_databases()
 		if dbname not in databases:
 			return False
 		else:
@@ -182,16 +187,22 @@ class MySQL:
 		print("MySQL > Creating database "+dbname+" ...")
 		cursor.execute("CREATE DATABASE "+dbname)
 
-	def is_table_exist(self,tbname):
-		"""Check if table exist"""
+	def delete_db(self,dbname):
+		"""Delete Database"""
 		cursor = self._cursor
-		cursor.execute('SHOW TABLES')
-		tables = cursor.fetchall()
-		tables = [ x[0] for x in tables ]
-		if tbname in tables:
-			return True
-		else:
-			return False
+		print("MySQL > Deleting database "+dbname+" ...")
+		cursor.execute("DROP DATABASE "+dbname)
+
+	def get_databases(self):
+		"""Get databases names"""
+		cursor = self._cursor
+		#print("MySQL > Getting databases ...")
+		cursor.execute("SHOW DATABASES ")
+		databases = cursor.fetchall()
+		databases = [ x[0] for x in databases ]
+		return databases
+
+	
 
 	def create_table(self,tbname,column_info):
 		"""Create a table under a database"""
@@ -199,17 +210,79 @@ class MySQL:
 		print("MySQL > Creating table "+tbname+" ...")
 		cursor.execute("CREATE TABLE "+tbname+" (id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,"+''.join([' '+info+' '+column_info[info]+',' for info in column_info])[:-1]+")")
 
+	def delete_table(self,tbname):
+		"""Delete a table under a database"""
+		cursor = self._cursor
+		print("MySQL > Deleting table "+tbname+" ...")
+		query = f"""DROP TABLE {tbname}"""
+		cursor.execute(query)
+
+	def get_tables(self):
+		"""Get table names"""
+		cursor = self._cursor
+		cursor.execute('SHOW TABLES')
+		tables = cursor.fetchall()
+		tables = [ x[0] for x in tables ]
+		return tables
+
+	def describe_table(self,tbname):
+		"""Describe a table structure"""
+		"""
+		Similars
+		SHOW COLUMNS FROM bookrack.books;
+		DESCRIBE bookrack.books;
+		DESC bookrack.books;
+		"""
+		cursor = self._cursor
+		print("MySQL > Describing table "+tbname+" ...")
+		query = f"""DESCRIBE {tbname}"""
+		cursor.execute(query)
+		rows = cursor.fetchall()
+		
+		data = {
+			'Field' : [],
+			'Type' : [],
+			'Null' : [],
+			'Key' : [],
+			'Default': [],
+			'Extra' : []
+		}
+
+		for row in rows:
+			data = { key:data[key] + [row[list(data).index(key)]] for key in data}
+		
+		dbf = pandas.DataFrame(data)
+		print(dbf)
+
+	def is_table_exist(self,tbname):
+		"""Check if table exist"""
+		tables = self.get_tables()
+		if tbname in tables:
+			return True
+		else:
+			return False
+
 	def get_columns(self,tbname):
+		"""Get column names of a table"""
 		cursor = self._cursor
 		cursor.execute("SHOW COLUMNS FROM "+tbname)
 		columns = cursor.fetchall()
-		return columns
-		# [('id', 'int(11)', 'NO', 'PRI', None, 'auto_increment'), ('book_sid', 'varchar(255)', 'YES', '', None, ''), ('book_name', 'varchar(255)', 'YES', '', None, ''), ('book_writer', 'varchar(255)', 'YES', '', None, ''), ('book_publisher', 'varchar(255)', 'YES', '', None, '')]
-
-	def get_columns_names(self,tbname):
-		"""Get column names of a table"""
-		columns = self.get_columns(tbname)
 		return [column_name for column_name, *_ in columns]
+
+	def show_table(self,tbname):
+		cursor = self._cursor
+		print("MySQL > Showing data of table "+tbname+" ...")
+		cursor.execute("SELECT * FROM "+tbname)
+		rows = cursor.fetchall()
+
+		data = { column_name:[] for column_name in self.get_columns(tbname)}
+		for row in rows:
+			data = { key:data[key] + [row[list(data).index(key)]] for key in data}
+		
+		dbf = pandas.DataFrame(data)
+		print(dbf)
+
+
 
 	def get_unique_id_from_field(self,field_name,key_length,filters=[]):
 		"""Get a random unique id not registered in a specific field"""
@@ -243,7 +316,23 @@ class MySQL:
 				
 		return sid
 
-	def insert_data(self,value_tupple):
+	def delete_row(self,delete_dict):
+		"""Delete a row of data"""
+		#keylist = [key for key in delete_dict]
+		column_name = delete_dict[0]
+		value = delete_dict[column_name]
+
+		cursor = self._cursor
+		tbname = self._config['table']
+		query = f"""DELETE FROM {tbname} WHERE `{column_name}`='{value}';"""
+		cursor.execute(query)
+
+		## to make final output we have to run the 'commit()' method of the database object
+		#self.mySQLConnection.commit()
+
+		#print(cursor.rowcount, "record inserted")
+
+	def insert_row(self,value_tupple):
 		"""Insert row of data"""
 		cursor = self._cursor
 		dbname = self._config['database']
@@ -252,7 +341,8 @@ class MySQL:
 		
 		# candidate_name, candidate_age, candidate_distance, candidate_living_place, candidate_university_or_instituition, candidate_image_webp_url, candidate_unique_image_name
 		#cursor.execute("DESC "+tbname)
-		
+
+
 		query = "INSERT INTO "+tbname+ ' (' + ''.join([key+', ' for key in column_info])[:-2] + ') VALUES ('+ ''.join(['%s, ' for key in column_info])[:-2]  +')'
 		
 		## storing values in a variable
@@ -360,8 +450,6 @@ mysql_bin_folder = {mysql_bin_folder}"""
 			shaonutil.file.write_file(file_name,configstr)
 
 			window.destroy()
-
-
 
 
 		btn = ttk.Button(window ,text="Submit",command=clicked).grid(row=9,column=0)
