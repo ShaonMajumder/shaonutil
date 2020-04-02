@@ -58,13 +58,17 @@ Function **verify_data(data)** -> Description: Verify the EAN encoded data<br>
 Function **actual_data(decodedObjects)** -> Description: Returns data without checksum digit for EAN type<br>
 Function **encode(type_,file_,data,rt)** -> Description: Encode the data as barcode or qrcode<br>
 Function **decode(infile,log)** -> Description: Decode barcode or qrcode<br>
-Function **displayBarcode(im,decodedObjects)** -> Description: Mark and show the detected barcode<br>
+Function **markBarcode(im,decodedObjects)** -> Description: Mark and show the detected barcode<br>
 Function **make_barcode_matrix(type_,unique_ids,row_number,column_number,filename)** -> Description: Make barcode matrix image<br>
 Function **read_live_barcode(detection_threshold)** -> Description: Live read the barcode and returns data<br>
 ### Mysql Database
-Function **create_configuration(option)** -> Description: Creating Configuration<br>
+Function **create_configuration(option,file_name)** -> Description: Creating Configuration<br>
+Function **remove_aria_log(mysql_data_dir)** -> Description: Removing aria_log.### files to in mysql data dir to restart mysql<br>
+Function **get_mysql_datadir(mysql_bin_folder,user,pass_)** -> Description: Get mysql data directory<br>
 Class **MySQL** -> Description: A class for all mysql actions<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Function **__init__(config,log)**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **__init__(config,init_start_server,log)**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **start_mysql_server()** -> Description: Start mysql server<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **stop_mysql_server(force)** -> Description: Stop MySQL Server<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **reopen_connection()** -> Description: reopen<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **close_connection()** -> Description: closing the connection<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **config()**<br>
@@ -73,16 +77,16 @@ Class **MySQL** -> Description: A class for all mysql actions<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **make_cursor()**<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **is_mysql_user_exist(mysql_username)** -> Description: check if mysql user exist return type:boolean<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **listMySQLUsers()** -> Description: list all mysql users<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Function **createMySQLUser(host,userName,password,querynum,updatenum,connection_num)**<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Function **grantMySQLUserAllPrivileges(host,userName,querynum,updatenum,connection_num)**<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Function **is_db_exist(dbname)**<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Function **create_db(dbname)**<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Function **is_table_exist(tbname)**<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Function **create_table(tbname,column_info)**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **createMySQLUser(host,userName,password,querynum,updatenum,connection_num)** -> Description: Create a Mysql User<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **grantMySQLUserAllPrivileges(host,userName,querynum,updatenum,connection_num)** -> Description: Grant a user all privilages<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **is_db_exist(dbname)** -> Description: Check if database exist<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **create_db(dbname)** -> Description: Create Database<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **is_table_exist(tbname)** -> Description: Check if table exist<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **create_table(tbname,column_info)** -> Description: Create a table under a database<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **get_columns(tbname)**<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Function **get_columns_names(tbname)**<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Function **get_unique_id_from_field(key_length,field_name)**<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Function **insert_data(value_tupple)**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **get_columns_names(tbname)** -> Description: Get column names of a table<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **get_unique_id_from_field(field_name,key_length,filters)** -> Description: Get a random unique id not registered in a specific field<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **insert_data(value_tupple)** -> Description: Insert row of data<br>
 ### Network
 Function **url_encoding_to_utf_8(url)** -> Description: url_encoding_to_utf_8(url)<br>
 Function **check_valid_url(url)**<br>
@@ -97,9 +101,6 @@ Function **kill_duplicate_process(process_name,log)** -> Description: Kill a pro
 Function **killProcess_ByAll(PROCNAME)**<br>
 Function **killProcess_ByPid(pid)**<br>
 Function **list_processes(sort,save_file,log)**<br>
-Function **start_mysql_server(mysql_bin_folder,mysql_config_file)** -> Description: Start mysql server<br>
-Function **remove_aria_log(mysql_data_dir)** -> Description: Removing aria_log.### files to in mysql data dir to restart mysql<br>
-Function **get_mysql_datadir(mysql_bin_folder,user,pass_)** -> Description: Get mysql data directory<br>
 Function **computer_idle_mode()**<br>
 Function **obj_details_dump(obj)** -> Description: check dump<br>
 ### Statistics

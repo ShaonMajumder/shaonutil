@@ -26,6 +26,8 @@ import cv2
 import PIL
 import os
 
+
+
 def calculate_checksum(data):
     """Calculates the checksum for EAN13-Code / EAN8-Code return type: Integer"""
     def sum_(x, y):
@@ -167,7 +169,7 @@ def decode(infile,log=False):
 	return decodedObjects
 
 
-def displayBarcode(im, decodedObjects):
+def markBarcode(im, decodedObjects):
 	"""Mark and show the detected barcode"""
     # Loop over all decoded objects
 	for decodedObject in decodedObjects: 
@@ -191,9 +193,12 @@ def displayBarcode(im, decodedObjects):
 
 def make_barcode_matrix(type_,unique_ids,row_number,column_number,filename):
 	"""Make barcode matrix image"""
+	print("Making "+str(row_number)+"x"+str(column_number)+" BarCode Matrix ...")
+
 	if not len(unique_ids) == row_number * column_number:
 		raise ValueError("number of ids not equal to row x column size")
     
+	
 	TwoDArray = np.array(unique_ids).reshape(row_number,column_number)
 	column_img = []
 	for row_ids in TwoDArray:
@@ -203,6 +208,7 @@ def make_barcode_matrix(type_,unique_ids,row_number,column_number,filename):
 
 	shaonutil.image.merge_vertically(column_img,filename)
 
+	print("Exported "+str(row_number)+"x"+str(column_number)+" BarCode Matrix as "+filename)
 
 def read_live_barcode(detection_threshold = 50):
 	"""Live read the barcode and returns data"""
@@ -237,7 +243,7 @@ def read_live_barcode(detection_threshold = 50):
 		im = gray
 		
 		decodedObjects = decode(im,log=True)
-		frame = display(frame, decodedObjects)
+		frame = markBarcode(frame, decodedObjects)
 		data = actual_data(decodedObjects)
 
 		# draw the predicted face name on the image
@@ -281,3 +287,5 @@ def read_live_barcode(detection_threshold = 50):
 	
 	message = data
 	return message, detection_time
+
+	

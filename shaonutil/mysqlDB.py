@@ -140,6 +140,7 @@ class MySQL:
 	               querynum=0, 
 	               updatenum=0, 
 	               connection_num=0):
+		"""Create a Mysql User"""
 		cursor = self._cursor
 		try:
 			print("MySQL > Creating user",userName)
@@ -152,6 +153,7 @@ class MySQL:
 	               querynum=0, 
 	               updatenum=0, 
 	               connection_num=0):
+		"""Grant a user all privilages"""
 		cursor = self._cursor
 		try:
 			print("MySQL > Granting all PRIVILEGES to user",userName)
@@ -163,6 +165,7 @@ class MySQL:
 			print("Error creating MySQL User: %s"%(Ex));
 
 	def is_db_exist(self,dbname):
+		"""Check if database exist"""
 		cursor = self._cursor
 
 		cursor.execute("SHOW DATABASES")
@@ -174,11 +177,13 @@ class MySQL:
 			return True
 
 	def create_db(self,dbname):
+		"""Create Database"""
 		cursor = self._cursor
 		print("MySQL > Creating database "+dbname+" ...")
 		cursor.execute("CREATE DATABASE "+dbname)
 
 	def is_table_exist(self,tbname):
+		"""Check if table exist"""
 		cursor = self._cursor
 		cursor.execute('SHOW TABLES')
 		tables = cursor.fetchall()
@@ -189,6 +194,7 @@ class MySQL:
 			return False
 
 	def create_table(self,tbname,column_info):
+		"""Create a table under a database"""
 		cursor = self._cursor
 		print("MySQL > Creating table "+tbname+" ...")
 		cursor.execute("CREATE TABLE "+tbname+" (id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,"+''.join([' '+info+' '+column_info[info]+',' for info in column_info])[:-1]+")")
@@ -201,10 +207,12 @@ class MySQL:
 		# [('id', 'int(11)', 'NO', 'PRI', None, 'auto_increment'), ('book_sid', 'varchar(255)', 'YES', '', None, ''), ('book_name', 'varchar(255)', 'YES', '', None, ''), ('book_writer', 'varchar(255)', 'YES', '', None, ''), ('book_publisher', 'varchar(255)', 'YES', '', None, '')]
 
 	def get_columns_names(self,tbname):
+		"""Get column names of a table"""
 		columns = self.get_columns(tbname)
 		return [column_name for column_name, *_ in columns]
 
 	def get_unique_id_from_field(self,field_name,key_length,filters=[]):
+		"""Get a random unique id not registered in a specific field"""
 		table = self._config['table']
 
 		cursor = self._cursor
@@ -236,6 +244,7 @@ class MySQL:
 		return sid
 
 	def insert_data(self,value_tupple):
+		"""Insert row of data"""
 		cursor = self._cursor
 		dbname = self._config['database']
 		tbname = self._config['table']
