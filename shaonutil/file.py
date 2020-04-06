@@ -3,6 +3,9 @@ from pip._internal import main as pipmain
 from os.path import dirname, basename, isfile, join
 import json,codecs,configparser,subprocess,platform,os,glob,shaonutil,pickle,importlib,pip
 
+def get_module_path(module):
+	return module.__file__
+	
 def get_all_dirs():
     return [basename(file_) for file_ in glob.glob(join(os.getcwd(), "*")) if  os.path.isdir(file_) and not '..' in file_]
 def get_all_files_dirs():

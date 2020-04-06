@@ -5,6 +5,7 @@ import wmi
 import os
 import subprocess
 
+
 """
 To Resolve mysql problems:
 go to mysql folder > aria_chk -r
@@ -148,7 +149,5 @@ def obj_details_dump(obj):
 	    print("obj.%s = %r" % (attr, getattr(obj, attr)))
 
 #list_processes(log=True)
-#killProcess_ByAll("chromedriver.exe")
-#killProcess_ByAll("mysqld.exe")
 
 

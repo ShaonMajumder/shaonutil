@@ -1,7 +1,7 @@
-# Shaonutil  - 0.0.0.55.1
+# Shaonutil  - 0.0.0.61.1
 ## Utility Functions for Developers
 
-Stable Version - 0.0.0.55.1<br>
+Stable Version - 0.0.0.61.1<br>
 Author: Shaon Majumder<br>
 Contact: smazoomder@gmail.com
 
@@ -12,8 +12,8 @@ Contact: smazoomder@gmail.com
 - imgcode
 - mysqlDB
 - network
-- os
 - process
+- security
 - stats
 - strings
 - windows
@@ -24,6 +24,7 @@ Contact: smazoomder@gmail.com
 ## Function Usages
 
 ### File
+Function **get_module_path(module)**<br>
 Function **get_all_dirs()**<br>
 Function **get_all_files_dirs()**<br>
 Function **package_exists(package_name)** -> Description: check if a python pcakage exists.<br>
@@ -78,22 +79,49 @@ Class **MySQL** -> Description: A class for all mysql actions<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **is_mysql_user_exist(mysql_username)** -> Description: check if mysql user exist return type:boolean<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **listMySQLUsers()** -> Description: list all mysql users<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **createMySQLUser(host,userName,password,querynum,updatenum,connection_num)** -> Description: Create a Mysql User<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Function **grantMySQLUserAllPrivileges(host,userName,querynum,updatenum,connection_num)** -> Description: Grant a user all privilages<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **delete_mysql_user(user,host,password)** -> Description: Delete a mysql user<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **show_privileges(user,host)** -> Description: Show privileges of mysql user<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **check_privileges(database,host,username)** -> Description: Check if a mysql user has privileges on a database<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **grant_all_privileges(host,userName,privileges,database,table,querynum,updatenum,connection_num)** -> Description: Grant a user all privilages<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **grant_privileges(user,host,database,privileges,table)** -> Description: Grant specified privileges for a mysql user<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **remove_all_privileges(user,host,privileges)** -> Description: Revoke/Remove all privileges for a mysql user<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **remove_privileges(user,host,privileges)** -> Description: Remove specified privileges for a mysql user<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **change_privileges(user,host,privileges)** -> Description: Change to specified privileges for a mysql user<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **flush_privileges()** -> Description: Update database permissions/privilages<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **add_db_privilages_for_MySQLUSer()**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **change_db_privilages_for_MySQLUSer()**<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **is_db_exist(dbname)** -> Description: Check if database exist<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Function **create_db(dbname)** -> Description: Create Database<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Function **delete_db(dbname)** -> Description: Delete Database<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **create_database(dbname)** -> Description: Create Database<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **delete_database(dbname)** -> Description: Delete Database<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **get_databases()** -> Description: Get databases names<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **create_table(tbname,column_info)** -> Description: Create a table under a database<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Function **delete_table(tbname)** -> Description: Delete a table under a database<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Function **get_tables()** -> Description: Get table names<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **delete_table(table,database)** -> Description: Delete a table under a database<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **get_tables(database)** -> Description: Get table names<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **describe_table(tbname)** -> Description: Describe a table structure<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **is_table_exist(tbname)** -> Description: Check if table exist<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **get_columns(tbname)** -> Description: Get column names of a table<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **update_row()**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **delete_row()** -> Description: Delete a row of data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **add_column(tbname,column_name)**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **delete_column(tbname,column_name)**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **delete_unique_column(tbname,column_name)**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **change_to_unique_column()**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **change_column()**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **rename_column(tbname,old_column_name,new_column_name)**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **backup_all()**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **backup_table()**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **backup_database()**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **restore_table()**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **restore_databalse()**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Function **load_CSV_into_table()**<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **show_table(tbname)**<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **get_unique_id_from_field(field_name,key_length,filters)** -> Description: Get a random unique id not registered in a specific field<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **delete_row(delete_dict)** -> Description: Delete a row of data<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Function **insert_row(value_tupple)** -> Description: Insert row of data<br>
 ### Network
+Function **check_port(address,port,log)**<br>
+Function **urlExist(url)** -> Description: Check if the file exist in online<br>
+Function **downloadFile(url,filename)** -> Description: Donwload a file if error occurs returns false<br>
 Function **url_encoding_to_utf_8(url)** -> Description: url_encoding_to_utf_8(url)<br>
 Function **check_valid_url(url)**<br>
 Class **Email**<br>
@@ -109,6 +137,10 @@ Function **killProcess_ByPid(pid)**<br>
 Function **list_processes(sort,save_file,log)**<br>
 Function **computer_idle_mode()**<br>
 Function **obj_details_dump(obj)** -> Description: check dump<br>
+### Security
+Function **randomString(stringLength)** -> Description: Generate a random string of fixed length <br>
+Function **generateSecureRandomString(stringLength)** -> Description: Generate a secure random string of letters, digits and special characters <br>
+Function **generateCryptographicallySecureRandomString(stringLength,filters)** -> Description: Generate a random string in a UUID fromat which is crytographically secure and random<br>
 ### Statistics
 Function **counter(li,number)**<br>
 Function **occurance_dic(li)**<br>
@@ -118,12 +150,9 @@ Function **mode(li)** -> Description: Mode of elements - shaonutil.stats.mode(li
 ### String
 Function **nicely_print(dictionary,print)** -> Description: Prints the nicely formatted dictionary - shaonutil.strings.nicely_print(object)<br>
 Function **change_dic_key(dic,old_key,new_key)** -> Description: Change dictionary key with new key<br>
-Function **randomString(stringLength)** -> Description: Generate a random string of fixed length <br>
-Function **generateSecureRandomString(stringLength)** -> Description: Generate a secure random string of letters, digits and special characters <br>
-Function **generateCryptographicallySecureRandomString(stringLength,filters)** -> Description: Generate a random string in a UUID fromat which is crytographically secure and random<br>
 ### Windows
-Function **is_winapp_admin()**<br>
-Function **get_UAC_permission(func)**<br>
+Function **is_winapp_admin()** -> Description: If the windows app is running with Administrator permission<br>
+Function **get_UAC_permission()** -> Description: Get Windows User Account Control Permission for the executing file. If already executing file has admin access, do not ask for permission.<br>
 
 
 Function Usages End

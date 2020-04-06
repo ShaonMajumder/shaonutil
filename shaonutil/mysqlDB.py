@@ -158,20 +158,127 @@ class MySQL:
 		except Exception as Ex:
 			print("Error creating MySQL User: %s"%(Ex));
 
-	def grantMySQLUserAllPrivileges(self, host, userName,
-	               querynum=0, 
-	               updatenum=0, 
-	               connection_num=0):
+	def delete_mysql_user(self,user,host,password=''):
+		"""Delete a mysql user"""
+		# drop by verifying by password convert password mysql password hash
+		cursor = self._cursor
+		query = f"""DROP USER '{user}'@'{host}'"""
+		try:
+			cursor.execute(query)
+		except Exception as Ex:
+			print("Error Deleting MySQL User: %s"%(Ex));
+
+
+	def show_privileges(self,user,host):
+		"""Show privileges of mysql user"""
+		cursor = self._cursor
+		
+		try:
+			print("MySQL > Showing privilages of user",user)
+			query = f"""show grants for '{user}'@'{host}';"""
+			cursor.execute(query)
+			lines = cursor.fetchall()
+			for line in lines:
+				print(line)
+
+		except Exception as Ex:
+			print("Error showing privileges MySQL User: %s"%(Ex));
+
+	def check_privileges(self,database,host,username):
+		"""Check if a mysql user has privileges on a database"""
+		pass
+
+	def grant_all_privileges(self, host, userName,
+				privileges = "ALL PRIVILEGES",
+				database = '*',
+				table = '*',
+	            querynum=0, 
+	            updatenum=0,
+	            connection_num=0):
 		"""Grant a user all privilages"""
 		cursor = self._cursor
+		
 		try:
 			print("MySQL > Granting all PRIVILEGES to user",userName)
-			sqlGrantPrivilage = "GRANT ALL PRIVILEGES ON * . * TO '%s'@'%s';"%(userName,host)
-			cursor.execute(sqlGrantPrivilage)
-			cursor.execute("FLUSH PRIVILEGES;")
+			query = f"""GRANT {privileges} ON {database}.{table} TO '{userName}'@'{host}'"""
+			print(query)
+			cursor.execute(query)
+			self.flush_privileges()
 
 		except Exception as Ex:
 			print("Error creating MySQL User: %s"%(Ex));
+
+	def grant_privileges(self,user,host,database,privileges,table='*'):
+		"""Grant specified privileges for a mysql user"""
+		#SELECT,INSERT,UPDATE,DELETE
+		cursor = self._cursor
+		try:
+			print("MySQL > Granting privilages",privileges,"for user",user)
+			query = f"""GRANT {privileges} ON `{database}`.{table} TO '{user}'@'{host}';"""
+			#GRANT ALL privileges ON `bookrack`.* TO 'robist_shaon'@'localhost'
+			cursor.execute(query)
+			lines = cursor.fetchall()
+			for line in lines:
+				print(line)
+
+		except Exception as Ex:
+			print("Error granting privileges MySQL User: %s"%(Ex));
+
+	def remove_all_privileges(self,user,host,privileges = "all privileges"):
+		"""Revoke/Remove all privileges for a mysql user"""
+		cursor = self._cursor
+		
+		try:
+			print("MySQL > Removing all privilages for user",user)
+			query=f"""revoke {privileges} on *.* from '{user}'@'{host}';"""
+			cursor.execute(query)
+			lines = cursor.fetchall()
+			for line in lines:
+				print(line)
+
+		except Exception as Ex:
+			print("Error removing privileges MySQL User: %s"%(Ex));
+
+	def remove_privileges(self,user,host,privileges):
+		"""Remove specified privileges for a mysql user"""
+		#SELECT,INSERT,UPDATE,DELETE
+		try:
+			print("MySQL > Removing privilages",privileges,"for user",user)
+			query = f"""REVOKE {privileges} ON *.* FROM '{user}'@'{host}'"""
+			#query = f"""REVOKE {privileges} ON `bookrack`.* FROM '{user}'@'{host}'"""
+			#query = f"""REVOKE {privileges} ON `bookrack`.`tbname` FROM '{user}'@'{host}'"""
+
+			cursor.execute(query)
+			lines = cursor.fetchall()
+			for line in lines:
+				print(line)
+
+		except Exception as Ex:
+			print("Error granting privileges MySQL User: %s"%(Ex));
+	
+
+	def change_privileges(self,user,host,privileges):
+		"""Change to specified privileges for a mysql user"""
+		self.remove_privileges(user,host)
+		self.grant_privileges(user,host,privileges)
+		self.flush_privileges()
+
+
+	def flush_privileges(self):
+		"""Update database permissions/privilages"""
+		cursor = self._cursor
+		print("MySQL > Flushing privilages ...")
+		cursor.execute("FLUSH PRIVILEGES;")
+
+	def add_db_privilages_for_MySQLUSer(self):
+		#Switch to mysql db.Give user privilages for a db.
+		#INSERT INTO [table name] (Host,Db,User,Select_priv,Insert_priv,Update_priv,Delete_priv,Create_priv,Drop_priv) VALUES ('%','db','user','Y','Y','Y','Y','Y','N');
+		pass
+
+	def change_db_privilages_for_MySQLUSer(self):
+		pass
+
+	
 
 	def is_db_exist(self,dbname):
 		"""Check if database exist"""
@@ -181,15 +288,19 @@ class MySQL:
 		else:
 			return True
 
-	def create_db(self,dbname):
+	def create_database(self,dbname):
 		"""Create Database"""
 		cursor = self._cursor
 		print("MySQL > Creating database "+dbname+" ...")
 		cursor.execute("CREATE DATABASE "+dbname)
 
-	def delete_db(self,dbname):
+	def delete_database(self,dbname):
 		"""Delete Database"""
 		cursor = self._cursor
+		tables = self.get_tables()
+		for table in tables:
+			self.delete_table(table,dbname)
+
 		print("MySQL > Deleting database "+dbname+" ...")
 		cursor.execute("DROP DATABASE "+dbname)
 
@@ -210,17 +321,21 @@ class MySQL:
 		print("MySQL > Creating table "+tbname+" ...")
 		cursor.execute("CREATE TABLE "+tbname+" (id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,"+''.join([' '+info+' '+column_info[info]+',' for info in column_info])[:-1]+")")
 
-	def delete_table(self,tbname):
+	def delete_table(self,table,database=''):
 		"""Delete a table under a database"""
 		cursor = self._cursor
-		print("MySQL > Deleting table "+tbname+" ...")
-		query = f"""DROP TABLE {tbname}"""
+		if database == '':
+			database = self._config['database']
+		print("MySQL > Deleting table "+table+" ...")
+		query = f"""DROP TABLE {database}.{table}"""
 		cursor.execute(query)
 
-	def get_tables(self):
+	def get_tables(self,database=''):
 		"""Get table names"""
 		cursor = self._cursor
-		cursor.execute('SHOW TABLES')
+		if database == '':
+			database = self._config['database']
+		cursor.execute(f"""SHOW TABLES FROM {database}""")
 		tables = cursor.fetchall()
 		tables = [ x[0] for x in tables ]
 		return tables
@@ -268,6 +383,73 @@ class MySQL:
 		cursor.execute("SHOW COLUMNS FROM "+tbname)
 		columns = cursor.fetchall()
 		return [column_name for column_name, *_ in columns]
+
+	def update_row(self):
+		#To update info already in a table.
+		#UPDATE [table name] SET Select_priv = 'Y',Insert_priv = 'Y',Update_priv = 'Y' where [field name] = 'user';
+		pass
+	def delete_row():
+		#Delete a row(s) from a table.
+		#DELETE from [table name] where [field name] = 'whatever';
+		pass
+
+	def add_column(self,tbname,column_name):
+		#Add a new column to db.
+		#alter table [table name] add column [new column name] varchar (20);
+		pass
+
+	def delete_column(self,tbname,column_name):
+		#Delete a column.
+		#alter table [table name] drop column [column name];
+		pass
+
+	def delete_unique_column(self,tbname,column_name):
+		#Delete unique column from table.
+		#alter table [table name] drop index [colmn name];
+		pass
+
+	def change_to_unique_column(self):
+		#Make a unique column so you get no dupes.
+		#alter table [table name] add unique ([column name]);
+		pass
+
+	def change_column(self):
+		#Make a column bigger.
+		#alter table [table name] modify [column name] VARCHAR(3);
+		pass
+
+
+	def rename_column(self,tbname,old_column_name,new_column_name):
+		# RENAME or Change Column name Structure
+		#alter table [table name] change [old column name] [new column name] varchar (50);
+		pass
+
+	def backup_all(self):
+		#Dump all databases for backup. Backup file is sql commands to recreate all db's.
+		#mysql dir]/bin/mysqldump -u root -ppassword --opt >/tmp/alldatabases.sql
+		pass
+	def backup_table(self):
+		#Dump a table from a database.
+		#[mysql dir]/bin/mysqldump -c -u username -ppassword databasename tablename > /tmp/databasename.tablename.sql
+		pass
+	def backup_database(self):
+		#Dump one database for backup.
+		#[mysql dir]/bin/mysqldump -u username -ppassword --databases databasename >/tmp/databasename.sql
+		pass
+	def restore_table(self):
+		#Restore database (or database table) from backup.
+		#[mysql dir]/bin/mysql -u username -ppassword databasename < /tmp/databasename.sql
+		pass
+	def restore_databalse(self):
+		#Restore database (or database table) from backup.
+		#[mysql dir]/bin/mysql -u username -ppassword databasename < /tmp/databasename.sql
+		pass
+
+	def load_CSV_into_table(self):
+		#Load a CSV file into a table.
+		#LOAD DATA INFILE '/tmp/filename.csv' replace INTO TABLE [table name] FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (field1,field2,field3);
+		pass
+
 
 	def show_table(self,tbname):
 		cursor = self._cursor
@@ -337,7 +519,7 @@ class MySQL:
 		cursor = self._cursor
 		dbname = self._config['database']
 		tbname = self._config['table']
-		column_info = self.get_columns_names(tbname)[1:]
+		column_info = self.get_columns(tbname)[1:]
 		
 		# candidate_name, candidate_age, candidate_distance, candidate_living_place, candidate_university_or_instituition, candidate_image_webp_url, candidate_unique_image_name
 		#cursor.execute("DESC "+tbname)
@@ -471,3 +653,115 @@ def get_mysql_datadir(mysql_bin_folder,user,pass_=''):
 	out = [line for line in out.decode('utf8').replace("\r\n","\n").split('\n') if line != ''][-1]
 	datadir = out.replace('\\\\','\\')
 	return datadir
+
+"""
+To login (from unix shell) use -h only if needed.	[mysql dir]/bin/mysql -h hostname -u root -p
+Create a database on the sql server.	create database [databasename];
+List all databases on the sql server.	show databases;
+Switch to a database.	use [db name];
+To see all the tables in the db.	show tables;
+To see database's field formats.	describe [table name];
+To delete a db.	drop database [database name];
+To delete a table.	drop table [table name];
+Show all data in a table.	SELECT * FROM [table name];
+Returns the columns and column information pertaining to the designated table.	show columns from [table name];	
+Show certain selected rows with the value "whatever".	SELECT * FROM [table name] WHERE [field name] = "whatever";	
+Show all records containing the name "Bob" AND the phone number '3444444'.	SELECT * FROM [table name] WHERE name = "Bob" AND phone_number = '3444444';	
+Show all records not containing the name "Bob" AND the phone number '3444444' order by the phone_number field.	SELECT * FROM [table name] WHERE name != "Bob" AND phone_number = '3444444' order by phone_number;	
+Show all records starting with the letters 'bob' AND the phone number '3444444'.	SELECT * FROM [table name] WHERE name like "Bob%" AND phone_number = '3444444';	
+Use a regular expression to find records. Use "REGEXP BINARY" to force case-sensitivity. This finds any record beginning with a.	SELECT * FROM [table name] WHERE rec RLIKE "^a$";	
+Show unique records.	SELECT DISTINCT [column name] FROM [table name];
+Show selected records sorted in an ascending (asc) or descending (desc).	SELECT [col1],[col2] FROM [table name] ORDER BY [col2] DESC;
+Count rows.	SELECT COUNT(*) FROM [table name];	
+Join tables on common columns.	select lookup.illustrationid, lookup.personid,person.birthday from lookup
+left join person on lookup.personid=person.personid=statement to join birthday in person table with primary illustration id;
+Change a users password.(from unix shell).	[mysql dir]/bin/mysqladmin -u root -h hostname.blah.org -p password 'new-password'
+Change a users password.(from MySQL prompt).	SET PASSWORD FOR 'user'@'hostname' = PASSWORD('passwordhere');
+Switch to mysql db.Give user privilages for a db.	INSERT INTO [table name] (Host,Db,User,Select_priv,Insert_priv,Update_priv,Delete_priv,Create_priv,Drop_priv) VALUES ('%','db','user','Y','Y','Y','Y','Y','N');
+
+
+Create Table Example 1.	CREATE TABLE [table name] (firstname VARCHAR(20), middleinitial VARCHAR(3), lastname VARCHAR(35),suffix VARCHAR(3),
+officeid VARCHAR(10),userid VARCHAR(15),username VARCHAR(8),email VARCHAR(35),phone VARCHAR(25), groups
+VARCHAR(15),datestamp DATE,timestamp time,pgpemail VARCHAR(255));
+Create Table Example 2.	create table [table name] (personid int(50) not null auto_increment primary key,firstname varchar(35),middlename varchar(50),lastname varchar(50) default 'bato');
+"""
+
+
+
+"""
+Summary of Available Privileges
+The following table shows the static privilege names used in GRANT and REVOKE statements, along with the column name associated with each privilege in the grant tables and the context in which the privilege applies.
+
+Table 6.2 Permissible Static Privileges for GRANT and REVOKE
+
+Privilege	Grant Table Column	Context
+ALL [PRIVILEGES]	Synonym for “all privileges”	Server administration
+ALTER	Alter_priv	Tables
+ALTER ROUTINE	Alter_routine_priv	Stored routines
+CREATE	Create_priv	Databases, tables, or indexes
+CREATE ROLE	Create_role_priv	Server administration
+CREATE ROUTINE	Create_routine_priv	Stored routines
+CREATE TABLESPACE	Create_tablespace_priv	Server administration
+CREATE TEMPORARY TABLES	Create_tmp_table_priv	Tables
+CREATE USER	Create_user_priv	Server administration
+CREATE VIEW	Create_view_priv	Views
+DELETE	Delete_priv	Tables
+DROP	Drop_priv	Databases, tables, or views
+DROP ROLE	Drop_role_priv	Server administration
+EVENT	Event_priv	Databases
+EXECUTE	Execute_priv	Stored routines
+FILE	File_priv	File access on server host
+GRANT OPTION	Grant_priv	Databases, tables, or stored routines
+INDEX	Index_priv	Tables
+INSERT	Insert_priv	Tables or columns
+LOCK TABLES	Lock_tables_priv	Databases
+PROCESS	Process_priv	Server administration
+PROXY	See proxies_priv table	Server administration
+REFERENCES	References_priv	Databases or tables
+RELOAD	Reload_priv	Server administration
+REPLICATION CLIENT	Repl_client_priv	Server administration
+REPLICATION SLAVE	Repl_slave_priv	Server administration
+SELECT	Select_priv	Tables or columns
+SHOW DATABASES	Show_db_priv	Server administration
+SHOW VIEW	Show_view_priv	Views
+SHUTDOWN	Shutdown_priv	Server administration
+SUPER	Super_priv	Server administration
+TRIGGER	Trigger_priv	Tables
+UPDATE	Update_priv	Tables or columns
+USAGE	Synonym for “no privileges”	Server administration
+
+The following table shows the dynamic privilege names used in GRANT and REVOKE statements, along with the context in which the privilege applies.
+
+
+Table 6.3 Permissible Dynamic Privileges for GRANT and REVOKE
+
+Privilege	Context
+APPLICATION_PASSWORD_ADMIN	Dual password administration
+AUDIT_ADMIN	Audit log administration
+BACKUP_ADMIN	Backup administration
+BINLOG_ADMIN	Backup and Replication administration
+BINLOG_ENCRYPTION_ADMIN	Backup and Replication administration
+CLONE_ADMIN	Clone administration
+CONNECTION_ADMIN	Server administration
+ENCRYPTION_KEY_ADMIN	Server administration
+FIREWALL_ADMIN	Firewall administration
+FIREWALL_USER	Firewall administration
+GROUP_REPLICATION_ADMIN	Replication administration
+INNODB_REDO_LOG_ARCHIVE	Redo log archiving administration
+NDB_STORED_USER	NDB Cluster
+PERSIST_RO_VARIABLES_ADMIN	Server administration
+REPLICATION_APPLIER	PRIVILEGE_CHECKS_USER for a replication channel
+REPLICATION_SLAVE_ADMIN	Replication administration
+RESOURCE_GROUP_ADMIN	Resource group administration
+RESOURCE_GROUP_USER	Resource group administration
+ROLE_ADMIN	Server administration
+SESSION_VARIABLES_ADMIN	Server administration
+SET_USER_ID	Server administration
+SHOW_ROUTINE	Server administration
+SYSTEM_USER	Server administration
+SYSTEM_VARIABLES_ADMIN	Server administration
+TABLE_ENCRYPTION_ADMIN	Server administration
+VERSION_TOKEN_ADMIN	Server administration
+XA_RECOVER_ADMIN	Server administration
+
+"""

@@ -6,7 +6,44 @@ from email.mime.text import MIMEText
 import  shaonutil
 import urllib.parse
 import re
+import requests
+import wget
+import socket
+import sys
 
+
+def check_port(address='localhost', port=80, log = False):
+	# localhost / 127.0.0.1
+	# http port 80
+
+    # Create a TCP socket
+    s = socket.socket()
+    if log: print("Attempting to connect to %s on port %s" % (address, port))
+    try:
+        s.connect((address, port))
+        if log: print("Connected to %s on port %s" % (address, port))
+        return True
+    except socket.error as  e:
+        if log: print("Connection to %s on port %s failed: %s" % (address, port, e))
+        return False
+    finally:
+        s.close()
+
+def urlExist(url):
+	"""Check if the file exist in online"""
+	res = requests.head(url)
+	if res.ok:
+		return True
+	else:
+		return False
+
+def downloadFile(url,filename):
+	"""Donwload a file if error occurs returns false"""
+	if urlExist(url):
+		wget.download(url,filename)
+		return True
+	else:
+		return False
 
 def url_encoding_to_utf_8(url):
 	"""url_encoding_to_utf_8(url)"""
