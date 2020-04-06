@@ -1,7 +1,7 @@
 """Mysql Database"""
 from tkinter import ttk,Tk,Label,Entry
 import tkinter as tk
-from shaonutil.strings import generateCryptographicallySecureRandomString
+from shaonutil.security import generateCryptographicallySecureRandomString
 import mysql.connector as mysql
 import subprocess
 import shaonutil

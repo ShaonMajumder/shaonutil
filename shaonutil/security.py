@@ -3,7 +3,7 @@ from uuid import UUID
 import os
 import string
 import random
-from file import get_all_files_dirs
+
 def randomString(stringLength=10):
     """Generate a random string of fixed length """
     letters = string.ascii_lowercase
@@ -34,6 +34,3 @@ def generateCryptographicallySecureRandomString(stringLength=10,filters=[]):
 	randomString  = randomString[0:stringLength]
 
 	return randomString
-
-
-print(get_all_files_dirs())
