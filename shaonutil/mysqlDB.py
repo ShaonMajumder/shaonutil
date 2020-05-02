@@ -583,53 +583,65 @@ mysql_bin_folder = {mysql_bin_folder}"""
 		return configstr
 
 	elif option == 'gui':
-		window = Tk()
-		window.title("Welcome to DB Config")
-		window.geometry('400x400')
-		window.configure(background = "grey");
+		class TKCONFIG:
+			def __init__(self):
+				self.Return = ''
+				self.window = Tk()
+				self.window.title("Welcome to DB Config")
+				self.window.geometry('400x400')
+				self.window.configure(background = "grey");
 
-		# Label fb_authentication
-		FB_LABEL = Label(window ,text = "MYSQL Config").grid(row = 0,column = 0,columnspan=2)
-		a = Label(window ,text = "MYSQL bin folder").grid(row = 1,column = 0)
-		
-		DB_LABEL = Label(window ,text = "Database Authentication").grid(row = 3,column = 0,columnspan=2)
-		c = Label(window ,text = "Host").grid(row = 4,column = 0)
-		d = Label(window ,text = "User").grid(row = 5,column = 0)
-		d = Label(window ,text = "Password").grid(row = 6,column = 0)
-		d = Label(window ,text = "Database").grid(row = 7,column = 0)
-		d = Label(window ,text = "Table").grid(row = 8,column = 0)
+				# Label fb_authentication
+				FB_LABEL = Label(self.window ,text = "MYSQL Config").grid(row = 0,column = 0,columnspan=2)
+				a = Label(self.window ,text = "MYSQL bin folder").grid(row = 1,column = 0)
+				
+				DB_LABEL = Label(self.window ,text = "Database Authentication").grid(row = 3,column = 0,columnspan=2)
+				c = Label(self.window ,text = "Host").grid(row = 4,column = 0)
+				d = Label(self.window ,text = "User").grid(row = 5,column = 0)
+				d = Label(self.window ,text = "Password").grid(row = 6,column = 0)
+				d = Label(self.window ,text = "Database").grid(row = 7,column = 0)
+				d = Label(self.window ,text = "Table").grid(row = 8,column = 0)
+				d = Label(self.window ,text = "Root Password").grid(row = 9,column = 0)
 
-		mysqlbinfolder_ = tk.StringVar(window)
-		fbpassword_ = tk.StringVar(window)
-		dbhost_ = tk.StringVar(window)
-		dbuser_ = tk.StringVar(window)
-		dbpassword_ = tk.StringVar(window)
-		dbname_ = tk.StringVar(window)
-		dbtable_ = tk.StringVar(window)
+				self.mysqlbinfolder_ = tk.StringVar(self.window)
+				fbpassword_ = tk.StringVar(self.window)
+				self.dbhost_ = tk.StringVar(self.window)
+				self.dbuser_ = tk.StringVar(self.window)
+				self.dbpassword_ = tk.StringVar(self.window)
+				self.dbname_ = tk.StringVar(self.window)
+				self.dbtable_ = tk.StringVar(self.window)
+				self.root_password_ = tk.StringVar(self.window)
 
-		Entry(window,textvariable=mysqlbinfolder_).grid(row = 1,column = 1)
-		
-		Entry(window,textvariable=dbhost_).grid(row = 4,column = 1)
-		Entry(window,textvariable=dbuser_).grid(row = 5,column = 1)
-		Entry(window,show="*",textvariable=dbpassword_).grid(row = 6,column = 1)
-		Entry(window,textvariable=dbname_).grid(row = 7,column = 1)
-		Entry(window,textvariable=dbtable_).grid(row = 8,column = 1)
+				Entry(self.window,textvariable=self.mysqlbinfolder_).grid(row = 1,column = 1)
+				
+				Entry(self.window,textvariable=self.dbhost_).grid(row = 4,column = 1)
+				Entry(self.window,textvariable=self.dbuser_).grid(row = 5,column = 1)
+				Entry(self.window,show="*",textvariable=self.dbpassword_).grid(row = 6,column = 1)
+				Entry(self.window,textvariable=self.dbname_).grid(row = 7,column = 1)
+				Entry(self.window,textvariable=self.dbtable_).grid(row = 8,column = 1)
 
-		def clicked():
-			mysql_bin_folder = mysqlbinfolder_.get()
-			
-			dbhost = dbhost_.get()
-			dbuser = dbuser_.get()
-			dbpassword = dbpassword_.get()
-			dbname = dbname_.get()
-			dbtable = dbtable_.get()
+				Entry(self.window,textvariable=self.root_password_).grid(row = 9,column = 1)
 
-			configstr = f"""; config file
+				btn = ttk.Button(self.window ,text="Submit",command=self.clicked).grid(row=10,column=0)
+				self.window.mainloop()
+
+			def clicked(self):
+				mysql_bin_folder = self.mysqlbinfolder_.get()
+				
+				dbhost = self.dbhost_.get()
+				dbuser = self.dbuser_.get()
+				dbpassword = self.dbpassword_.get()
+				dbname = self.dbname_.get()
+				dbtable = self.dbtable_.get()
+
+				root_password = self.root_password_.get()
+				
+				configstr = f"""; config file
 [DB_INITIALIZE]
 mysql_bin_folder = {mysql_bin_folder}
 host = localhost
 user = root
-password = 
+password = {root_password}
 [DB_AUTHENTICATION]
 mysql_bin_folder = {mysql_bin_folder}
 host = {dbhost}
@@ -640,15 +652,13 @@ table = {dbtable}
 [MYSQL]
 mysql_bin_folder = {mysql_bin_folder}"""
 
-			#shaonutil.file.write_file(file_name,configstr)
-			window.destroy()
-			return configstr
+				self.Return = configstr
+				self.window.destroy()
+		tkconfig = TKCONFIG()
+		#while tkconfig.Return == '': pass
 
-			
 
-
-		btn = ttk.Button(window ,text="Submit",command=clicked).grid(row=9,column=0)
-		window.mainloop()
+	return tkconfig.Return
 
 
 def remove_aria_log(mysql_data_dir):
