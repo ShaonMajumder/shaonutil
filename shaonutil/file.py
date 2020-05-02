@@ -1,6 +1,7 @@
 """File"""
 from pip._internal import main as pipmain
 from os.path import dirname, basename, isfile, join
+from io import StringIO
 import json,codecs,configparser,subprocess,platform,os,glob,shaonutil,pickle,importlib,pip
 
 def get_module_path(module):
@@ -48,6 +49,12 @@ def read_configuration_ini(filename):
 	config = configparser.ConfigParser()
 	config.readfp(codecs.open(filename, "r", "utf8"))
 	return config
+def read_configuration_ini_string(string):
+	config = configparser.ConfigParser()
+	with StringIO(string) as buff:
+		config.read_file(buff)
+	return config
+
 
 def read_safecase_configuration_ini(filename):
 	config = CaseConfigParser()
@@ -71,7 +78,7 @@ def write_json(obj,filename):
 	with codecs.open(filename, "w", encoding='utf-8') as fp:
 	    json.dump(obj, fp, indent=1)
 
-def read_file(filename):
+def read_file(filename,remove_ill_char=True):
 	"""Read File and return lines as list"""
 	if os.path.exists(filename):
 		with codecs.open(filename, "r", encoding="utf-8") as file_reader:
@@ -80,8 +87,9 @@ def read_file(filename):
 		ill_chars = ['\r','\n']
 		_ = []
 		for line in lines:
-			for ic in ill_chars:
-				line = line.replace(ic,'')
+			if remove_ill_char:
+				for ic in ill_chars:
+					line = line.replace(ic,'')
 			_.append(line)
 		filtered_lines = _
 		return filtered_lines

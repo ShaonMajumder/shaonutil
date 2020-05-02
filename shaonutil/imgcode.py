@@ -152,7 +152,8 @@ def encode(type_,file_,data,rt='FILE'):
 	
 def decode(infile,log=False):
 	"""Decode barcode or qrcode"""
-	if type(infile) == str:
+	#if type(infile) == str:
+	if os.path.exists(infile):
 		im = cv2.imread(infile)
 	elif type(infile) == np.ndarray:
 		im = infile

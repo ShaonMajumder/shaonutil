@@ -13,3 +13,6 @@ def change_dic_key(dic,old_key,new_key):
 	"""Change dictionary key with new key"""
 	dic[new_key] = dic.pop(old_key)
 	return dic
+
+def sort_dic_by_value(dic):
+	return {k: v for k, v in sorted(dic.items(), key=lambda item: item[1])}

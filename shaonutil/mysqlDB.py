@@ -540,7 +540,19 @@ class MySQL:
 
 		print(cursor.rowcount, "record inserted")
 
+def initialization_database_config_checkup(filename,option_input):
+	#use it
+	if os.path.isfile(filename):
+		print("Database Configurations found !")
+	else:
+		print("Creating Database configurations ...")
+		create_configuration(option=option_input,file_name = filename)
+
 def create_configuration(option='cli',file_name = "private/config.ini"):
+	configstr = create_configuration_string(option=option)
+	shaonutil.file.write_file(file_name,configstr)
+
+def create_configuration_string(option):
 	"""Creating Configuration"""
 	if option == 'cli':
 		print('Getting your configurations to save it.\n')
@@ -568,8 +580,7 @@ database = {dbname}
 table = {dbtable}
 [MYSQL]
 mysql_bin_folder = {mysql_bin_folder}"""
-
-		shaonutil.file.write_file(file_name,configstr)
+		return configstr
 
 	elif option == 'gui':
 		window = Tk()
@@ -629,9 +640,11 @@ table = {dbtable}
 [MYSQL]
 mysql_bin_folder = {mysql_bin_folder}"""
 
-			shaonutil.file.write_file(file_name,configstr)
-
+			#shaonutil.file.write_file(file_name,configstr)
 			window.destroy()
+			return configstr
+
+			
 
 
 		btn = ttk.Button(window ,text="Submit",command=clicked).grid(row=9,column=0)
