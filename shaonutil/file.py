@@ -7,6 +7,7 @@ import json,codecs,configparser,subprocess,platform,os,glob,shaonutil,pickle,imp
 def make_dir_zip(output_filename,dir_name):
 	"""Archieve a directory"""
 	shutil.make_archive(output_filename, 'zip', dir_name)
+	return output_filename
 
 def unzip(input_folder):
 	shutil.unpack_archive(input_folder)
