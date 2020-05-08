@@ -4,8 +4,9 @@ from os.path import dirname, basename, isfile, join
 from io import StringIO
 import json,codecs,configparser,subprocess,platform,os,glob,shaonutil,pickle,importlib,pip,shutil
 
-def make_dir_zip(output_filename,dir_name):
+def make_dir_zip(dir_name):
 	"""Archieve a directory"""
+	output_filename = dir_name
 	shutil.make_archive(output_filename, 'zip', dir_name)
 	return output_filename
 
