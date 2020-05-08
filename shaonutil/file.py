@@ -2,7 +2,14 @@
 from pip._internal import main as pipmain
 from os.path import dirname, basename, isfile, join
 from io import StringIO
-import json,codecs,configparser,subprocess,platform,os,glob,shaonutil,pickle,importlib,pip
+import json,codecs,configparser,subprocess,platform,os,glob,shaonutil,pickle,importlib,pip,shutil
+
+def make_dir_zip(output_filename,dir_name):
+	"""Archieve a directory"""
+	shutil.make_archive(output_filename, 'zip', dir_name)
+
+def unzip(input_folder):
+	shutil.unpack_archive(input_folder)
 
 def get_module_path(module):
 	return module.__file__
