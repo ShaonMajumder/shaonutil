@@ -11,7 +11,14 @@ def make_dir_zip(dir_name):
 	return output_filename + '.zip'
 
 def unzip(input_folder):
-	shutil.unpack_archive(input_folder)
+	input_folder = os.path.abspath(input_folder)
+	filename, file_extension = os.path.splitext(input_folder)
+	
+	shutil.unpack_archive(
+	filename=input_folder,
+	extract_dir=filename,
+	format='zip',
+	)
 
 def get_module_path(module):
 	return module.__file__
