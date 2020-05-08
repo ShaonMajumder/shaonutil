@@ -8,7 +8,7 @@ def make_dir_zip(dir_name):
 	"""Archieve a directory"""
 	output_filename = dir_name
 	shutil.make_archive(output_filename, 'zip', dir_name)
-	return output_filename
+	return output_filename + '.zip'
 
 def unzip(input_folder):
 	shutil.unpack_archive(input_folder)
