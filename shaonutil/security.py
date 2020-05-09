@@ -1,9 +1,15 @@
 """Security"""
+from base64 import b64encode,b64decode
 from uuid import UUID
 import random
 import string
 import os
 
+def urandom_to_string(length):
+	# not accurate
+	random_bytes = os.urandom(length)
+	token = b64encode(random_bytes).decode('utf-8')[:length]
+	return token
 
 def randomString(stringLength=10):
     """Generate a random string of fixed length """
